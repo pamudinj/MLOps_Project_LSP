@@ -1,29 +1,46 @@
 from pathlib import Path
 
-import typer
-from torch.utils.data import Dataset
+# import typer
+from torch.utils.data import Dataset, DataLoader
+from torchvision import transforms
+from medmnist import PathMNIST
 
 
 class MyDataset(Dataset):
-    """My custom dataset."""
+    """My custom dataset wrapping PathMNIST."""
 
-    def __init__(self, data_path: Path) -> None:
-        self.data_path = data_path
+    def __init__(self, split: str = "train", transform=None) -> None:
+        self.dataset = PathMNIST(split=split, transform=transform, download=True)
 
     def __len__(self) -> int:
         """Return the length of the dataset."""
+        return len(self.dataset)
 
     def __getitem__(self, index: int):
         """Return a given sample from the dataset."""
+        return self.dataset[index]
 
-    def preprocess(self, output_folder: Path) -> None:
-        """Preprocess the raw data and save it to the output folder."""
 
-def preprocess(data_path: Path, output_folder: Path) -> None:
-    print("Preprocessing data...")
-    dataset = MyDataset(data_path)
-    dataset.preprocess(output_folder)
+def get_dataloaders(batch_size: int = 32):
+    transform = transforms.ToTensor()
+
+    train = MyDataset(split="train", transform=transform)
+    val = MyDataset(split="val", transform=transform)
+    test = MyDataset(split="test", transform=transform)
+
+    return (
+        DataLoader(train, batch_size=batch_size, shuffle=True),
+        DataLoader(val, batch_size=batch_size),
+        DataLoader(test, batch_size=batch_size),
+    )
+
+
+# def preprocess(data_path: Path, output_folder: Path) -> None:
+#     print("Preprocessing data...")
 
 
 if __name__ == "__main__":
-    typer.run(preprocess)
+    train_loader, _, _ = get_dataloaders()
+    images, labels = next(iter(train_loader))
+    print(f"Batch shape: {images.shape}")
+    print(f"Label: {labels[0]}")
