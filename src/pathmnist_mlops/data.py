@@ -1,6 +1,7 @@
 from pathlib import Path
 
 # import typer
+import torch
 from torch.utils.data import Dataset, DataLoader
 from torchvision import transforms
 from medmnist import PathMNIST
@@ -18,7 +19,10 @@ class MyDataset(Dataset):
 
     def __getitem__(self, index: int):
         """Return a given sample from the dataset."""
-        return self.dataset[index]
+
+        image, label = self.dataset[index]
+        label = torch.tensor(label).long().squeeze()
+        return image, label
 
 
 def get_dataloaders(batch_size: int = 32):
@@ -34,9 +38,9 @@ def get_dataloaders(batch_size: int = 32):
         DataLoader(test, batch_size=batch_size),
     )
 
-
-# def preprocess(data_path: Path, output_folder: Path) -> None:
-#     print("Preprocessing data...")
+def preprocess(data_path: Path, output_folder: Path) -> None:
+    output_folder.mkdir(parents=True,exist_ok=True,)
+    print("PathMNIST requires no additional preprocessing.")
 
 
 if __name__ == "__main__":
