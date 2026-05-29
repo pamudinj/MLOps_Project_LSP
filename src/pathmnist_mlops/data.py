@@ -2,9 +2,9 @@ from pathlib import Path
 
 # import typer
 import torch
-from torch.utils.data import Dataset, DataLoader
-from torchvision import transforms
 from medmnist import PathMNIST
+from torch.utils.data import DataLoader, Dataset
+from torchvision import transforms
 
 
 class MyDataset(Dataset):

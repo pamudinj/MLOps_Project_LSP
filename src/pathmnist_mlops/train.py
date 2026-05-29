@@ -1,11 +1,10 @@
 from pathlib import Path
 
 import torch
-from torch import nn
-from torch.optim import Adam
-
 from data import get_dataloaders
 from model import Model
+from torch import nn
+from torch.optim import Adam
 
 
 def train():
