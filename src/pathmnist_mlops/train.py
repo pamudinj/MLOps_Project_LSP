@@ -59,7 +59,7 @@ def train():
     Path("models").mkdir(parents=True, exist_ok=True)
 
     checkpoint_callback = ModelCheckpoint(
-        dirpath="models",
+        dirpath="/tmp/models",
         filename="pathmnist_cnn",
         monitor="val_acc",
         mode="max",
