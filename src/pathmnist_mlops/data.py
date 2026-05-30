@@ -2,9 +2,9 @@ from pathlib import Path
 
 # import typer
 import torch
-from medmnist import PathMNIST
+from medmnist import PathMNIST  # type: ignore
 from torch.utils.data import DataLoader, Dataset
-from torchvision import transforms
+from torchvision import transforms  # type: ignore
 
 
 class MyDataset(Dataset):
@@ -38,8 +38,12 @@ def get_dataloaders(batch_size: int = 32):
         DataLoader(test, batch_size=batch_size),
     )
 
+
 def preprocess(data_path: Path, output_folder: Path) -> None:
-    output_folder.mkdir(parents=True,exist_ok=True,)
+    output_folder.mkdir(
+        parents=True,
+        exist_ok=True,
+    )
     print("PathMNIST requires no additional preprocessing.")
 
 

@@ -1,10 +1,11 @@
 from pathlib import Path
 
 import torch
-from data import get_dataloaders
-from model import Model
 from torch import nn
 from torch.optim import Adam
+
+from pathmnist_mlops.data import get_dataloaders
+from pathmnist_mlops.model import Model
 
 
 def train():
@@ -23,7 +24,7 @@ def train():
 
     model = Model().to(device)
     criterion = nn.CrossEntropyLoss()
-    optimizer = Adam(model.parameters(),lr=1e-3)
+    optimizer = Adam(model.parameters(), lr=1e-3)
     epochs = 20
 
     print("Starting training...")
@@ -59,10 +60,10 @@ def train():
                 total += labels.size(0)
         val_acc = correct / total
 
-        print(f"Epoch {epoch+1}/{epochs} | "f"Loss: {train_loss:.4f} | " f"Val Acc: {val_acc:.4f}")
+        print(f"Epoch {epoch + 1}/{epochs} | Loss: {train_loss:.4f} | Val Acc: {val_acc:.4f}")
 
     Path("models").mkdir(parents=True, exist_ok=True)
-    torch.save(model.state_dict(),"models/pathmnist_cnn.pt")
+    torch.save(model.state_dict(), "models/pathmnist_cnn.pt")
     print("Model saved.")
 
 
