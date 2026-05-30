@@ -24,7 +24,7 @@ class PathMNISTClassifier(pl.LightningModule):
 
     def training_step(self, batch, batch_idx):
         images, labels = batch
-        labels = labels.squeeze(1).long()
+        labels = labels.squeeze().long()
         outputs = self(images)
         loss = self.criterion(outputs, labels)
         acc = (outputs.argmax(dim=1) == labels).float().mean()
@@ -34,7 +34,7 @@ class PathMNISTClassifier(pl.LightningModule):
 
     def validation_step(self, batch, batch_idx):
         images, labels = batch
-        labels = labels.squeeze(1).long()
+        labels = labels.squeeze().long()
         outputs = self(images)
         loss = self.criterion(outputs, labels)
         acc = (outputs.argmax(dim=1) == labels).float().mean()
