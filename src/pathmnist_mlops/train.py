@@ -1,14 +1,18 @@
 from pathlib import Path
 
+import logging
 import pytorch_lightning as pl
 import torch
 from pytorch_lightning.callbacks import ModelCheckpoint
+from pytorch_lightning.loggers import WandbLogger
 from torch import nn
 from torch.optim import Adam
 
 from pathmnist_mlops.data import get_dataloaders
 from pathmnist_mlops.model import Model
 
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 class PathMNISTClassifier(pl.LightningModule):
     """PyTorch Lightning module for PathMNIST classification."""
@@ -52,28 +56,37 @@ def train():
     Loads train and validation dataloaders, trains the model,
     and saves the best checkpoint to the models/ directory.
     """
+    logger.info("Loading data...")
+    
     train_loader, val_loader, _ = get_dataloaders(batch_size=64)
 
     model = PathMNISTClassifier(lr=1e-3)
 
     Path("models").mkdir(parents=True, exist_ok=True)
-
+    
+    logger.info("Importing checkpoint...")
+    
     checkpoint_callback = ModelCheckpoint(
-        dirpath="models",
+        dirpath="/tmp/models",
         filename="pathmnist_cnn",
         monitor="val_acc",
         mode="max",
         save_top_k=1,
     )
-
+    
+    logger.info("Starting training...")
+    wandb_logger = WandbLogger(project="pathmnist-mlops")
+    
     trainer = pl.Trainer(
-        max_epochs=20,
+        max_epochs=5,
         callbacks=[checkpoint_callback],
+        logger = wandb_logger,
         log_every_n_steps=10,
     )
 
     trainer.fit(model, train_loader, val_loader)
-    print("Model saved.")
+    
+    logger.info("Model saved.")
 
 
 if __name__ == "__main__":
