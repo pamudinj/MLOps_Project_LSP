@@ -1,0 +1,38 @@
+{
+  "os": "macOS-15.3-arm64-arm-64bit",
+  "python": "CPython 3.12.13",
+  "startedAt": "2026-05-31T09:45:39.433894Z",
+  "program": "/Users/simons/Library/Mobile Documents/com~apple~CloudDocs/MLOps_Project_LSP/src/pathmnist_mlops/train.py",
+  "codePath": "src/pathmnist_mlops/train.py",
+  "codePathLocal": "train.py",
+  "git": {
+    "remote": "https://syyymonn:@github.com/pamudinj/MLOps_Project_LSP.git",
+    "commit": "b04cc2d31621aef67886b56aa3e61699d3738a02"
+  },
+  "email": "Schreiner.Simon@campus.lmu.de",
+  "root": ".",
+  "host": "Simons-MacBook-Pro.local",
+  "executable": "/Users/simons/anaconda3/envs/mlops2/bin/python",
+  "cpu_count": 8,
+  "cpu_count_logical": 8,
+  "disk": {
+    "/": {
+      "total": "245107195904",
+      "used": "216562745344"
+    }
+  },
+  "memory": {
+    "total": "8589934592"
+  },
+  "apple": {
+    "name": "Apple M2",
+    "ecpuCores": 4,
+    "pcpuCores": 4,
+    "gpuCores": 10,
+    "memoryGb": 8,
+    "swapTotalBytes": "9663676416",
+    "ramTotalBytes": "8589934592",
+    "macModel": "Mac14,7"
+  },
+  "writerId": "r15cz122wspyxo7gn4wwgsxyb11jeut3"
+}
