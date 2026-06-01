@@ -179,7 +179,6 @@ cython_debug/
 additional_codes.py
 dockerfiles/artifact.dockerfile
 .dvcignore
-data/
 data.dvc
 models/pathmnist_cnn.pt
 .github/workflows/cloudbuild.yaml
