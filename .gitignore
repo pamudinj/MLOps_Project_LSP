@@ -182,8 +182,8 @@ data/
 models/pathmnist_cnn.pt
 .github/workflows/cloudbuild.yaml
 wandb/
-lightning_logs/
-configs/config.yaml 
+lightning_logs/ 
+outputs/
 
 src/pathmnist_mlops/lightning_logs/
 src/pathmnist_mlops/models/

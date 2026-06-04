@@ -33,7 +33,7 @@ def get_dataloaders(batch_size: int = 32):
     test = MyDataset(split="test", transform=transform)
 
     return ( # identified bottleneck using profiling: set num_workers = 3
-        DataLoader(train, batch_size=batch_size, shuffle=True, num_workers=3), 
+        DataLoader(train, batch_size=batch_size, shuffle=True, num_workers=3),
         DataLoader(val, batch_size=batch_size, num_workers=3),
         DataLoader(test, batch_size=batch_size, num_workers=3),
     )
