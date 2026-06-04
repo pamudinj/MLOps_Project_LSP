@@ -187,4 +187,5 @@ models/pathmnist_cnn.pt
 wandb/
 lightning_logs/
 configs/config.yaml
+.dvc/
 
