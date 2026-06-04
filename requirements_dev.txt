@@ -19,3 +19,4 @@ mkdocstrings-python==2.0.1
 # cloud
 dvc
 dvc-gdrive
+dvc-gs
