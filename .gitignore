@@ -184,4 +184,7 @@ data/
 data.dvc
 models/pathmnist_cnn.pt
 .github/workflows/cloudbuild.yaml
+wandb/
+lightning_logs/
+configs/config.yaml
 
