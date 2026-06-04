@@ -177,11 +177,13 @@ cython_debug/
 #.idea/
 
 additional_codes.py
-dockerfiles/artifact.dockerfile
-.dvcignore
-data.dvc
+dockerfiles/artifact.dockerfile 
+data/ 
 models/pathmnist_cnn.pt
 .github/workflows/cloudbuild.yaml
+wandb/
+lightning_logs/
+configs/config.yaml 
 
 src/pathmnist_mlops/lightning_logs/
 src/pathmnist_mlops/models/

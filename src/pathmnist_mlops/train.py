@@ -36,7 +36,7 @@ class PathMNISTClassifier(pl.LightningModule):
         loss = self.criterion(outputs, labels)
         acc = (outputs.argmax(dim=1) == labels).float().mean()
         self.log("train_loss", loss, prog_bar=True)
-        self.log("train_acc", acc, prog_bar=True)
+        self.log("train_acc", acc, prog_bar=True)     
         return loss
 
     def validation_step(self, batch, batch_idx):
