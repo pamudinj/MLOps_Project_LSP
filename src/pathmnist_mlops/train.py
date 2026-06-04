@@ -1,5 +1,8 @@
 from pathlib import Path
 
+import argparse
+import wandb
+
 import logging
 import pytorch_lightning as pl
 import torch
@@ -49,7 +52,7 @@ class PathMNISTClassifier(pl.LightningModule):
         return Adam(self.parameters(), lr=self.hparams.lr)
 
 
-def train():
+def train(lr=1e-3, batch_size = 64, max_epochs = 20, log_every_n_steps = 10):
     """
     Train a CNN on the PathMNIST dataset using PyTorch Lightning.
 
@@ -58,13 +61,13 @@ def train():
     """
     logger.info("Loading data...")
     
-    train_loader, val_loader, _ = get_dataloaders(batch_size=64)
+    train_loader, val_loader, _ = get_dataloaders(batch_size)
 
-    model = PathMNISTClassifier(lr=1e-3)
+    model = PathMNISTClassifier(lr)
 
     Path("models").mkdir(parents=True, exist_ok=True)
     
-    logger.info("Importing checkpoint...")
+    logger.info("Configuring checkpoint...")
     
     checkpoint_callback = ModelCheckpoint(
         dirpath="/tmp/models",
@@ -78,10 +81,10 @@ def train():
     wandb_logger = WandbLogger(project="pathmnist-mlops")
     
     trainer = pl.Trainer(
-        max_epochs=5,
+        max_epochs = max_epochs,
         callbacks=[checkpoint_callback],
         logger = wandb_logger,
-        log_every_n_steps=10,
+        log_every_n_steps = log_every_n_steps,
     )
 
     trainer.fit(model, train_loader, val_loader)
@@ -90,4 +93,18 @@ def train():
 
 
 if __name__ == "__main__":
-    train()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--lr", type=float, default=1e-3)
+    parser.add_argument("--batch_size", type=int, default=64)
+    parser.add_argument("--max_epochs", type=int, default=20)
+    parser.add_argument("--log_every_n_steps", type=int, default=10)
+    args = parser.parse_args()
+    
+    wandb.init(project="pathmnist-mlops", config=vars(args))
+    
+    train(
+        lr=wandb.config.lr,
+        batch_size=wandb.config.batch_size,
+        max_epochs=wandb.config.max_epochs,
+        log_every_n_steps=wandb.config.log_every_n_steps,
+    )
