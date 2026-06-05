@@ -18,7 +18,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: "3.12"
           cache: 'pip'
 
       - name: Install dependencies
@@ -26,8 +26,11 @@ jobs:
           python -m pip install -U pip setuptools wheel
           pip install -r requirements.txt
           pip install -r requirements_dev.txt
-          pip list
 
+      - name: Install package
+        run: |
+          pip install -e .
+ 
       - name: ruff linter
         run: |
           ruff check .
@@ -38,4 +41,4 @@ jobs:
 
       - name: mypy type checking
         run: |
-          mypy .
+          mypy src/

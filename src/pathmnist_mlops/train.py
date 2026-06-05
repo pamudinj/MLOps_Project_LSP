@@ -16,6 +16,7 @@ from pathmnist_mlops.model import Model
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+
 class PathMNISTClassifier(pl.LightningModule):
     """PyTorch Lightning module for PathMNIST classification."""
 
@@ -50,6 +51,7 @@ class PathMNISTClassifier(pl.LightningModule):
     def configure_optimizers(self):
         return Adam(self.parameters(), lr=self.hparams.lr)
 
+
 @hydra.main(
     version_base=None,
     config_path="../../configs",
@@ -82,13 +84,13 @@ def train(cfg: DictConfig) -> None:
 
     logger.info("Starting training...")
     wandb_logger = WandbLogger(
-    project="pathmnist-mlops",
+        project="pathmnist-mlops",
     )
 
     trainer = pl.Trainer(
-        max_epochs = cfg.training.epochs,
+        max_epochs=cfg.training.epochs,
         callbacks=[checkpoint_callback],
-        logger = wandb_logger,
+        logger=wandb_logger,
         log_every_n_steps=cfg.training.log_every_n_steps,
         accelerator="auto",
         devices=1,
