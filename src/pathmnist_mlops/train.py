@@ -82,7 +82,7 @@ def train(cfg: DictConfig) -> None:
 
     logger.info("Starting training...")
     wandb_logger = WandbLogger(
-    project="pathmnist-mlops", 
+    project="pathmnist-mlops",
     )
 
     trainer = pl.Trainer(
