@@ -182,7 +182,8 @@ cython_debug/
 additional_codes.py
 dockerfiles/artifact.dockerfile
 data/
-models/pathmnist_cnn.pt
+models/*
+!models/.gitkeep
 .github/workflows/cloudbuild.yaml
 wandb/
 lightning_logs/
