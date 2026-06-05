@@ -1,0 +1,67 @@
+name: Model Registry Workflow
+
+on:
+
+  pull_request:
+    branches:
+      - main
+
+    paths:
+      - "src/pathmnist_mlops/model.py"
+      - "src/pathmnist_mlops/train.py"
+      - "src/pathmnist_mlops/evaluate.py"
+
+  push:
+    branches:
+      - main
+
+    paths:
+      - "src/pathmnist_mlops/model.py"
+      - "src/pathmnist_mlops/train.py"
+      - "src/pathmnist_mlops/evaluate.py"
+
+
+jobs:
+
+  evaluate_registry_model:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install \
+            --upgrade pip setuptools wheel
+
+          pip install -r requirements.txt
+          pip install -r requirements_dev.txt
+
+          pip install -e .
+
+      - name: Evaluate WandB registry model
+        env:
+          WANDB_API_KEY:
+            ${{ secrets.WANDB_API_KEY }}
+
+          WANDB_ENTITY:
+            ${{ secrets.WANDB_ENTITY }}
+
+          WANDB_PROJECT:
+            ${{ secrets.WANDB_PROJECT }}
+
+          MODEL_NAME:
+            "pathmnist-model:latest"
+
+        run: |
+          python -m \
+            pathmnist_mlops.evaluate

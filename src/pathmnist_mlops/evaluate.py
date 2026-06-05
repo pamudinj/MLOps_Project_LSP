@@ -1,37 +1,66 @@
+import os
 from pathlib import Path
 
 import torch
-from sklearn.metrics import accuracy_score, confusion_matrix
+from sklearn.metrics import (
+    accuracy_score,
+    confusion_matrix,
+)
 
-from pathmnist_mlops.data import get_dataloaders
-from pathmnist_mlops.model import Model
+import wandb
+from pathmnist_mlops.data import (
+    get_dataloaders,
+)
+from pathmnist_mlops.model import (
+    Model,
+)
+
+
+def load_model_from_wandb(
+    device,
+):
+    api = wandb.Api(
+        api_key=os.getenv("WANDB_API_KEY"),
+        overrides={
+            "entity": os.getenv("WANDB_ENTITY"),
+            "project": os.getenv("WANDB_PROJECT"),
+        },
+    )
+
+    artifact = api.artifact(os.getenv("MODEL_NAME"))
+
+    artifact_dir = artifact.download(root="artifacts")
+
+    checkpoint_path = list(Path(artifact_dir).glob("*.ckpt"))[0]
+
+    checkpoint = torch.load(
+        checkpoint_path,
+        map_location=device,
+    )
+
+    model = Model().to(device)
+
+    model.load_state_dict(
+        checkpoint["state_dict"],
+        strict=False,
+    )
+
+    model.eval()
+
+    return model
 
 
 def evaluate() -> None:
     """
-    Evaluate a trained CNN on the PathMNIST test dataset.
-
-    Loads the saved model checkpoint and computes the
-    classification accuracy and confusion matrix on the
-    test split.
+    Evaluate model loaded
+    from WandB registry.
     """
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     _, _, test_loader = get_dataloaders(batch_size=64)
 
-    model = Model().to(device)
-
-    model_path = Path("models/pathmnist_cnn.pt")
-
-    model.load_state_dict(
-        torch.load(
-            model_path,
-            map_location=device,
-        )
-    )
-
-    model.eval()
+    model = load_model_from_wandb(device)
 
     all_predictions = []
     all_labels = []
@@ -61,6 +90,7 @@ def evaluate() -> None:
     )
 
     print("\nConfusion Matrix:")
+
     print(cm)
 
 

@@ -10,6 +10,7 @@ from pytorch_lightning.loggers import WandbLogger
 from torch import nn
 from torch.optim import Adam
 
+import wandb
 from pathmnist_mlops.data import get_dataloaders
 from pathmnist_mlops.model import Model
 
@@ -35,8 +36,20 @@ class PathMNISTClassifier(pl.LightningModule):
         outputs = self(images)
         loss = self.criterion(outputs, labels)
         acc = (outputs.argmax(dim=1) == labels).float().mean()
-        self.log("train_loss", loss, prog_bar=True)
-        self.log("train_acc", acc, prog_bar=True)
+        self.log(
+            "train_loss",
+            loss,
+            prog_bar=True,
+            on_step=False,
+            on_epoch=True,
+        )
+        self.log(
+            "train_acc",
+            acc,
+            prog_bar=True,
+            on_step=False,
+            on_epoch=True,
+        )
         return loss
 
     def validation_step(self, batch, batch_idx):
@@ -45,8 +58,20 @@ class PathMNISTClassifier(pl.LightningModule):
         outputs = self(images)
         loss = self.criterion(outputs, labels)
         acc = (outputs.argmax(dim=1) == labels).float().mean()
-        self.log("val_loss", loss, prog_bar=True)
-        self.log("val_acc", acc, prog_bar=True)
+        self.log(
+            "val_loss",
+            loss,
+            prog_bar=True,
+            on_step=False,
+            on_epoch=True,
+        )
+        self.log(
+            "val_acc",
+            acc,
+            prog_bar=True,
+            on_step=False,
+            on_epoch=True,
+        )
 
     def configure_optimizers(self):
         return Adam(self.parameters(), lr=self.hparams.lr)
@@ -76,7 +101,7 @@ def train(cfg: DictConfig) -> None:
 
     checkpoint_callback = ModelCheckpoint(
         dirpath="models",
-        filename="pathmnist_cnn",
+        filename="pathmnist_cnn-{epoch:02d}-{val_acc:.4f}",
         monitor="val_acc",
         mode="max",
         save_top_k=1,
@@ -85,6 +110,7 @@ def train(cfg: DictConfig) -> None:
     logger.info("Starting training...")
     wandb_logger = WandbLogger(
         project="pathmnist-mlops",
+        entity="pamudinj-ludwig-maximilian-university-of-munich",
     )
 
     trainer = pl.Trainer(
@@ -93,12 +119,23 @@ def train(cfg: DictConfig) -> None:
         logger=wandb_logger,
         log_every_n_steps=cfg.training.log_every_n_steps,
         accelerator="auto",
-        devices=1,
+        devices="auto",
     )
 
     trainer.fit(model, train_loader, val_loader)
 
-    logger.info("Model saved.")
+    if checkpoint_callback.best_model_path:
+        artifact = wandb.Artifact(
+            name="pathmnist-model",
+            type="model",
+            metadata={"val_acc": trainer.callback_metrics["val_acc"].item()},
+        )
+
+        artifact.add_file(checkpoint_callback.best_model_path)
+
+        wandb_logger.experiment.log_artifact(artifact)
+
+        logger.info("Model saved.")
 
 
 if __name__ == "__main__":
