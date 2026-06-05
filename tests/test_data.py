@@ -13,9 +13,14 @@ def test_dataset_instance():
     Test dataset is a PyTorch Dataset.
     """
 
-    dataset = MyDataset(split="train",)
+    dataset = MyDataset(
+        split="train",
+    )
 
-    assert isinstance(dataset, Dataset,)
+    assert isinstance(
+        dataset,
+        Dataset,
+    )
 
 
 def test_dataset_sample():
@@ -23,13 +28,22 @@ def test_dataset_sample():
     Test one dataset sample.
     """
 
-    dataset = MyDataset(split="train", transform=transforms.ToTensor(),)
+    dataset = MyDataset(
+        split="train",
+        transform=transforms.ToTensor(),
+    )
 
     image, label = dataset[0]
 
-    assert isinstance(image, torch.Tensor,)
+    assert isinstance(
+        image,
+        torch.Tensor,
+    )
 
-    assert isinstance(label, torch.Tensor,)
+    assert isinstance(
+        label,
+        torch.Tensor,
+    )
 
 
 def test_dataloader_batch():
@@ -37,7 +51,7 @@ def test_dataloader_batch():
     Test dataloader batch shapes.
     """
 
-    train_loader, _, _ = (get_dataloaders(batch_size=4))
+    train_loader, _, _ = get_dataloaders(batch_size=4)
 
     images, labels = next(iter(train_loader))
 
@@ -45,4 +59,7 @@ def test_dataloader_batch():
 
     assert labels.shape[0] == 4
 
-    assert isinstance(train_loader, DataLoader,)
+    assert isinstance(
+        train_loader,
+        DataLoader,
+    )
