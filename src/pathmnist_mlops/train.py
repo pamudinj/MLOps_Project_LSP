@@ -10,7 +10,6 @@ from pytorch_lightning.loggers import WandbLogger
 from torch import nn
 from torch.optim import Adam
 
-import wandb
 from pathmnist_mlops.data import get_dataloaders
 from pathmnist_mlops.model import Model
 
@@ -84,18 +83,15 @@ def train(cfg: DictConfig) -> None:
     logger.info("Starting training...")
     wandb_logger = WandbLogger(
     project="pathmnist-mlops",
-    config={
-        "learning_rate": cfg.training.learning_rate,
-        "batch_size": cfg.training.batch_size,
-        "epochs": cfg.training.epochs,
-    },
     )
 
     trainer = pl.Trainer(
         max_epochs = cfg.training.epochs,
         callbacks=[checkpoint_callback],
         logger = wandb_logger,
-        log_every_n_steps = cfg.training.log_every_n_steps,
+        log_every_n_steps=cfg.training.log_every_n_steps,
+        accelerator="auto",
+        devices=1,
     )
 
     trainer.fit(model, train_loader, val_loader)

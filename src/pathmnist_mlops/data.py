@@ -11,7 +11,9 @@ class MyDataset(Dataset):
     """My custom dataset wrapping PathMNIST."""
 
     def __init__(self, split: str = "train", transform=None) -> None:
-        self.dataset = PathMNIST(split=split, transform=transform, download=False, root=Path(__file__).parents[2] / "data" / "raw")
+        root = (Path(__file__).parents[2]/ "data"/ "raw")
+        root.mkdir(parents=True, exist_ok=True,)
+        self.dataset = PathMNIST(split=split, transform=transform, download=True, root=root)
 
     def __len__(self) -> int:
         """Return the length of the dataset."""
