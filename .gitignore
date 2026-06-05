@@ -160,6 +160,9 @@ venv.bak/
 .dmypy.json
 dmypy.json
 
+# ruff cache
+.ruff_cache/
+
 # Pyre type checker
 .pyre/
 
@@ -177,12 +180,12 @@ cython_debug/
 #.idea/
 
 additional_codes.py
-dockerfiles/artifact.dockerfile 
-data/ 
+dockerfiles/artifact.dockerfile
+data/
 models/pathmnist_cnn.pt
 .github/workflows/cloudbuild.yaml
 wandb/
-lightning_logs/ 
+lightning_logs/
 outputs/
 
 src/pathmnist_mlops/lightning_logs/

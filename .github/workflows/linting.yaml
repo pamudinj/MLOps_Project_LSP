@@ -30,7 +30,7 @@ jobs:
       - name: Install package
         run: |
           pip install -e .
- 
+
       - name: ruff linter
         run: |
           ruff check .
