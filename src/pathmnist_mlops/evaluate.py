@@ -2,17 +2,17 @@ import os
 from pathlib import Path
 
 import torch
+import wandb
 from sklearn.metrics import (
     accuracy_score,
     confusion_matrix,
 )
 
-import wandb
 from pathmnist_mlops.data import (
     get_dataloaders,
 )
-from pathmnist_mlops.model import (
-    Model,
+from pathmnist_mlops.train import (
+    PathMNISTClassifier,
 )
 
 
@@ -33,17 +33,7 @@ def load_model_from_wandb(
 
     checkpoint_path = list(Path(artifact_dir).glob("*.ckpt"))[0]
 
-    checkpoint = torch.load(
-        checkpoint_path,
-        map_location=device,
-    )
-
-    model = Model().to(device)
-
-    model.load_state_dict(
-        checkpoint["state_dict"],
-        strict=False,
-    )
+    model = PathMNISTClassifier.load_from_checkpoint(checkpoint_path).to(device)
 
     model.eval()
 
