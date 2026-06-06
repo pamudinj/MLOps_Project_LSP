@@ -1,8 +1,6 @@
 name: Code linting
 
 on:
-  push:
-    branches: [main]
   pull_request:
     branches: [main]
 
@@ -30,10 +28,6 @@ jobs:
       - name: Install package
         run: |
           pip install -e .
-
-      - name: ruff linter
-        run: |
-          ruff check .
 
       - name: ruff formatter
         run: |

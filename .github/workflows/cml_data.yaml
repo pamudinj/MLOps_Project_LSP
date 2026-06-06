@@ -10,14 +10,6 @@ on:
       - "**/*.dvc"
       - ".dvc/**"
 
-  push:
-    branches:
-      - main
-
-    paths:
-      - "**/*.dvc"
-      - ".dvc/**"
-
 
 jobs:
 

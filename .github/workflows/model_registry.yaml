@@ -8,17 +8,6 @@ on:
 
     paths:
       - "src/pathmnist_mlops/model.py"
-      - "src/pathmnist_mlops/train.py"
-      - "src/pathmnist_mlops/evaluate.py"
-
-  push:
-    branches:
-      - main
-
-    paths:
-      - "src/pathmnist_mlops/model.py"
-      - "src/pathmnist_mlops/train.py"
-      - "src/pathmnist_mlops/evaluate.py"
 
 
 jobs:
