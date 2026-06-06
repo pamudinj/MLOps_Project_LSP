@@ -2,12 +2,12 @@ import os
 from pathlib import Path
 
 import torch
+import wandb
 from sklearn.metrics import (
     accuracy_score,
     confusion_matrix,
 )
 
-import wandb
 from pathmnist_mlops.data import (
     get_dataloaders,
 )
