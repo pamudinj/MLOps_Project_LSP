@@ -20,3 +20,4 @@ mkdocstrings-python==2.0.1
 dvc
 dvc-gdrive
 dvc-gs
+google-cloud-aiplatform
