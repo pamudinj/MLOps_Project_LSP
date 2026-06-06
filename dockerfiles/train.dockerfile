@@ -1,16 +1,20 @@
-FROM python:3.12-slim AS base
+FROM python:3.12-slim
 
-RUN apt update && \
-    apt install --no-install-recommends -y build-essential gcc && \
-    apt clean && rm -rf /var/lib/apt/lists/*
+WORKDIR /app
 
-COPY src src/
-COPY requirements.txt requirements.txt
-COPY requirements_dev.txt requirements_dev.txt
-COPY README.md README.md
-COPY pyproject.toml pyproject.toml
+COPY requirements.txt .
+COPY requirements_dev.txt .
 
-RUN pip install -r requirements.txt --no-cache-dir --verbose
-RUN pip install . --no-deps --no-cache-dir --verbose
+RUN pip install --no-cache-dir \
+    -r requirements.txt
 
-ENTRYPOINT ["python", "-u", "src/pathmnist_mlops/train.py"]
+COPY . .
+
+RUN pip install -e .
+
+ENTRYPOINT [
+  "python",
+  "-u",
+  "-m",
+  "pathmnist_mlops.train"
+]
