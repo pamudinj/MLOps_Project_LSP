@@ -13,6 +13,7 @@ COPY README.md .
 
 RUN pip install --no-cache-dir -r requirements.txt
 
+COPY configs configs/
 COPY src src/
 
 RUN pip install . --no-deps --no-cache-dir
