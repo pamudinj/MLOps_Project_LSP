@@ -38,7 +38,11 @@ def load_model() -> PathMNISTClassifier:
 
     api = wandb.Api()
 
-    artifact = api.artifact(os.getenv("MODEL_NAME"))
+    model_name = os.getenv("MODEL_NAME")
+
+    if model_name is None:
+        raise ValueError("MODEL_NAME environment variable is not set")
+    artifact = api.artifact(model_name)
 
     artifact_dir = artifact.download()
 
@@ -101,9 +105,9 @@ async def predict(file: UploadFile = File(...)) -> dict[str, str | int | float]:
             dim=1,
         )
 
-        confidence = confidence.item()
+        confidence: float = float(confidence.item())
 
-        prediction = prediction.item()
+        prediction: int = int(prediction.item())
 
     if confidence < 0.6:
         return {
