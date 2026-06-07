@@ -193,4 +193,4 @@ src/pathmnist_mlops/lightning_logs/
 src/pathmnist_mlops/models/
 src/pathmnist_mlops/wandb/
 src/pathmnist_mlops/profile_output.txt
-/data
+tests/sample_images/test_image.jpg

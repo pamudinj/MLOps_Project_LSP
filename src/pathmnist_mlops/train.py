@@ -1,16 +1,17 @@
 import logging
+import os
 from pathlib import Path
 
 import hydra
 import pytorch_lightning as pl
 import torch
-import wandb
 from omegaconf import DictConfig
 from pytorch_lightning.callbacks import ModelCheckpoint
 from pytorch_lightning.loggers import WandbLogger
 from torch import nn
 from torch.optim import Adam
 
+import wandb
 from pathmnist_mlops.data import get_dataloaders
 from pathmnist_mlops.model import Model
 
@@ -77,9 +78,15 @@ class PathMNISTClassifier(pl.LightningModule):
         return Adam(self.parameters(), lr=self.hparams.lr)
 
 
+CONFIG_PATH = os.getenv(
+    "HYDRA_CONFIG_PATH",
+    "../../configs",
+)
+
+
 @hydra.main(
     version_base=None,
-    config_path="../../configs",
+    config_path=CONFIG_PATH,
     config_name="config",
 )
 def train(cfg: DictConfig) -> None:
