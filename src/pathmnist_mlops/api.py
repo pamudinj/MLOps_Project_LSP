@@ -32,6 +32,8 @@ LABELS = [
     "colorectal adenocarcinoma epithelium",
 ]
 
+_model = None  # Cache the loaded model
+
 
 def load_model() -> PathMNISTClassifier:
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -59,7 +61,12 @@ def load_model() -> PathMNISTClassifier:
     return model
 
 
-model = load_model()
+def get_model() -> PathMNISTClassifier:
+    """Lazy-load model on first use."""
+    global _model
+    if _model is None:
+        _model = load_model()
+    return _model
 
 
 transform = transforms.Compose(
@@ -88,6 +95,7 @@ async def predict(file: UploadFile = File(...)) -> dict[str, str | int | float]:
 
     image_tensor = transform(image).unsqueeze(0)
 
+    model = get_model()  # Load model on first prediction
     device = next(model.parameters()).device
 
     image_tensor = image_tensor.to(device)
