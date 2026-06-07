@@ -7,7 +7,7 @@ on:
       - main
 
     paths:
-      - "dockerfiles/**"
+      - "dockerfiles/train.dockerfile"
       - "cloudbuild_containers.yaml"
       - ".github/workflows/build_container.yaml"
 
