@@ -17,13 +17,6 @@ COPY configs configs/
 
 RUN pip install . --no-deps --no-cache-dir --verbose
 
-EXPOSE 8000
+EXPOSE $PORT
 
-ENTRYPOINT [
-    "uvicorn",
-    "pathmnist_mlops.api:app",
-    "--host",
-    "0.0.0.0",
-    "--port",
-    "8000"
-]
+ENTRYPOINT ["sh", "-c", "uvicorn pathmnist_mlops.api:app --host 0.0.0.0 --port $PORT"]

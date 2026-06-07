@@ -37,4 +37,5 @@ jobs:
           gcloud builds submit \
             . \
             --config \
-            cloudbuild_containers.yaml
+            cloudbuild_containers.yaml \
+            --async

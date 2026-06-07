@@ -8,6 +8,7 @@ on:
 
     paths:
       - "src/pathmnist_mlops/model.py"
+      - "src/pathmnist_mlops/train.py"
 
 
 jobs:

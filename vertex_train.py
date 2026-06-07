@@ -1,8 +1,10 @@
+import os
+
 from google.cloud import aiplatform
 
 PROJECT_ID = "mlops-project-497719"
 
-REGION = "europe-west1"
+REGION = "us-central1"
 
 BUCKET = "gs://mlops_data_bucket-1"
 
@@ -23,4 +25,9 @@ job = aiplatform.CustomContainerTrainingJob(
 job.run(
     replica_count=1,
     machine_type="n1-standard-4",
+    environment_variables={
+        "WANDB_API_KEY": os.getenv("WANDB_API_KEY"),
+        "WANDB_ENTITY": os.getenv("WANDB_ENTITY"),
+        "WANDB_PROJECT": os.getenv("WANDB_PROJECT"),
+    },
 )

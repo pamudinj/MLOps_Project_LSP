@@ -8,7 +8,7 @@ on:
 
     paths:
       - "src/pathmnist_mlops/api.py"
-      - "tests/test_api.py"
+      - "tests/apitests/test_api.py"
 
 
 jobs:
@@ -39,4 +39,4 @@ jobs:
 
       - name: Run API tests
         run: |
-          pytest tests/test_api.py
+          pytest tests/apitests/test_api.py

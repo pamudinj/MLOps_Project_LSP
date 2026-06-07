@@ -7,13 +7,13 @@ RUN apt update && \
     apt clean && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .
-COPY requirements_dev.txt .
 COPY pyproject.toml .
 COPY README.md .
 
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY configs configs/
+ENV HYDRA_CONFIG_PATH=/app/configs
 COPY src src/
 
 RUN pip install . --no-deps --no-cache-dir
