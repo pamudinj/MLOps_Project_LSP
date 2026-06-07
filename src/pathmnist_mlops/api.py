@@ -100,14 +100,14 @@ async def predict(file: UploadFile = File(...)) -> dict[str, str | int | float]:
             dim=1,
         )
 
-        confidence, prediction = torch.max(
+        confidence_tensor, prediction_tensor = torch.max(
             probabilities,
             dim=1,
         )
 
-        confidence: float = float(confidence.item())
+        confidence: float = float(confidence_tensor.item())
 
-        prediction: int = int(prediction.item())
+        prediction: int = int(prediction_tensor.item())
 
     if confidence < 0.6:
         return {
