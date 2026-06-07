@@ -1,16 +1,29 @@
 FROM python:3.12-slim AS base
 
+WORKDIR /app
+
 RUN apt update && \
     apt install --no-install-recommends -y build-essential gcc && \
     apt clean && rm -rf /var/lib/apt/lists/*
 
-COPY src src/
-COPY requirements.txt requirements.txt
-COPY requirements_dev.txt requirements_dev.txt
-COPY README.md README.md
-COPY pyproject.toml pyproject.toml
+COPY requirements.txt .
+COPY pyproject.toml .
+COPY README.md .
 
 RUN pip install -r requirements.txt --no-cache-dir --verbose
+
+COPY src src/
+COPY configs configs/
+
 RUN pip install . --no-deps --no-cache-dir --verbose
 
-ENTRYPOINT ["uvicorn", "src.pathmnist_mlops.api:app", "--host", "0.0.0.0", "--port", "8000"]
+EXPOSE 8000
+
+ENTRYPOINT [
+    "uvicorn",
+    "pathmnist_mlops.api:app",
+    "--host",
+    "0.0.0.0",
+    "--port",
+    "8000"
+]

@@ -1,0 +1,118 @@
+import io
+import os
+
+import torch
+import wandb
+from dotenv import load_dotenv
+from fastapi import (
+    FastAPI,
+    File,
+    UploadFile,
+)
+from PIL import Image
+from torchvision import transforms
+
+from pathmnist_mlops.train import (
+    PathMNISTClassifier,
+)
+
+load_dotenv()
+
+app = FastAPI()
+
+LABELS = [
+    "adipose",
+    "background",
+    "debris",
+    "lymphocytes",
+    "mucus",
+    "smooth muscle",
+    "normal colon mucosa",
+    "cancer-associated stroma",
+    "colorectal adenocarcinoma epithelium",
+]
+
+
+def load_model() -> PathMNISTClassifier:
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+    api = wandb.Api()
+
+    artifact = api.artifact(os.getenv("MODEL_NAME"))
+
+    artifact_dir = artifact.download()
+
+    checkpoint_path = next(
+        os.path.join(artifact_dir, file) for file in os.listdir(artifact_dir) if file.endswith(".ckpt")
+    )
+
+    model = PathMNISTClassifier.load_from_checkpoint(checkpoint_path)
+
+    model.to(device)
+
+    model.eval()
+
+    return model
+
+
+model = load_model()
+
+
+transform = transforms.Compose(
+    [
+        transforms.Resize((28, 28)),
+        transforms.ToTensor(),
+    ]
+)
+
+
+@app.get("/")
+def root() -> dict[str, str]:
+    return {"message": "PathMNIST FastAPI inference service"}
+
+
+@app.post("/predict")
+async def predict(file: UploadFile = File(...)) -> dict[str, str | int | float]:
+    image_bytes = await file.read()
+
+    image = Image.open(io.BytesIO(image_bytes)).convert("RGB")
+
+    width, height = image.size
+
+    if width > 100 or height > 100:
+        return {"message": "Input image size is not compatible with PathMNIST images."}
+
+    image_tensor = transform(image).unsqueeze(0)
+
+    device = next(model.parameters()).device
+
+    image_tensor = image_tensor.to(device)
+
+    with torch.no_grad():
+        outputs = model(image_tensor)
+
+        probabilities = torch.softmax(
+            outputs,
+            dim=1,
+        )
+
+        confidence, prediction = torch.max(
+            probabilities,
+            dim=1,
+        )
+
+        confidence = confidence.item()
+
+        prediction = prediction.item()
+
+    if confidence < 0.6:
+        return {
+            "message": "Input image is not recognized as a PathMNIST sample.",
+            "confidence": confidence,
+        }
+
+    return {
+        "prediction_index": prediction,
+        "prediction_label": LABELS[prediction],
+        "confidence": confidence,
+    }
