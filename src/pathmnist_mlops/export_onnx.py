@@ -33,7 +33,7 @@ def export_onnx() -> None:
 
     torch.onnx.export(
         model,
-        dummy_input,
+        (dummy_input,),
         "models/pathmnist_model.onnx",
         export_params=True,
         opset_version=18,

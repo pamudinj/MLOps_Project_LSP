@@ -1,6 +1,6 @@
 import io
 
-import onnxruntime as ort
+import onnxruntime as ort  # type: ignore
 import torch
 from fastapi import (
     FastAPI,
@@ -87,18 +87,17 @@ async def predict(file: UploadFile = File(...)) -> dict[str, str | int | float]:
         dim=1,
     )
 
-    confidence = confidence.item()
+    confidence_value = float(confidence.item())
+    prediction_value = int(prediction.item())
 
-    prediction = prediction.item()
-
-    if confidence < 0.6:
+    if confidence_value < 0.6:
         return {
             "message": "Input image is not recognized as a PathMNIST sample.",
-            "confidence": confidence,
+            "confidence": confidence_value,
         }
 
     return {
-        "prediction_index": prediction,
-        "prediction_label": LABELS[prediction],
-        "confidence": confidence,
+        "prediction_index": prediction_value,
+        "prediction_label": LABELS[prediction_value],
+        "confidence": confidence_value,
     }
