@@ -101,11 +101,6 @@ async def predict(file: UploadFile = File(...)) -> dict[str, str | int | float]:
 
     image = Image.open(io.BytesIO(image_bytes)).convert("RGB")
 
-    width, height = image.size
-
-    if width > 100 or height > 100:
-        return {"message": "Input image size is not compatible with PathMNIST images."}
-
     image_tensor = transform(image).unsqueeze(0)
 
     model = get_model()  # Load model on first prediction

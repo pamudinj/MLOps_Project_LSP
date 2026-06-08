@@ -26,8 +26,17 @@ job.run(
     replica_count=1,
     machine_type="n1-standard-4",
     environment_variables={
-        "WANDB_API_KEY": os.getenv("WANDB_API_KEY"),
-        "WANDB_ENTITY": os.getenv("WANDB_ENTITY"),
-        "WANDB_PROJECT": os.getenv("WANDB_PROJECT"),
+        "WANDB_API_KEY": os.getenv(
+            "WANDB_API_KEY",
+            "",
+        ),
+        "WANDB_ENTITY": os.getenv(
+            "WANDB_ENTITY",
+            "",
+        ),
+        "WANDB_PROJECT": os.getenv(
+            "WANDB_PROJECT",
+            "",
+        ),
     },
 )
