@@ -36,6 +36,10 @@ _model = None  # Cache the loaded model
 
 
 def load_model() -> PathMNISTClassifier:
+    """
+    Load the trained model checkpoint
+    from Weights & Biases artifacts.
+    """
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     api = wandb.Api()
@@ -79,11 +83,20 @@ transform = transforms.Compose(
 
 @app.get("/")
 def root() -> dict[str, str]:
+    """
+    Root endpoint for API health check.
+    """
+
     return {"message": "PathMNIST FastAPI inference service"}
 
 
 @app.post("/predict")
 async def predict(file: UploadFile = File(...)) -> dict[str, str | int | float]:
+    """
+    Predict the pathology tissue class
+    for an uploaded image.
+    """
+
     image_bytes = await file.read()
 
     image = Image.open(io.BytesIO(image_bytes)).convert("RGB")
