@@ -21,7 +21,7 @@ def get_backend_url() -> str:
         services = client.list_services(parent=parent)
 
         for service in services:
-            if service.name.split("/")[-1] == "pathmnist-backend":
+            if service.name.split("/")[-1] == "backend":
                 return service.uri
 
     except Exception:
