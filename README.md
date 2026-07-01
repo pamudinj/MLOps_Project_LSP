@@ -21,7 +21,8 @@ The main goal of this project is to build a production-ready image classificatio
 - Develop a Streamlit frontend for interactive image classification.
 - Monitor deployed models using Prometheus-compatible metrics and Google Cloud monitoring.
 - Detect potential data drift using Evidently to identify changes in incoming data distributions.
-Dataset
+
+### Dataset
 
 The project uses the PathMNIST dataset from the MedMNIST benchmark collection. PathMNIST contains 28×28 RGB histopathology image patches extracted from colorectal cancer tissue slides. Each image belongs to one of nine tissue categories, including adipose tissue, background, debris, lymphocytes, mucus, smooth muscle, normal colon mucosa, cancer-associated stroma, and colorectal adenocarcinoma epithelium.
 
