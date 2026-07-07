@@ -22,3 +22,4 @@ python-dotenv==1.2.2
 onnx==1.21.0
 onnxruntime==1.26.0
 onnxscript==0.7.0
+evidently==0.7.21
