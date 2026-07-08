@@ -168,7 +168,7 @@ async def predict(file: UploadFile = File(...)) -> dict[str, Any]:
     prediction_value = int(prediction.item())
 
     log_prediction(
-        filename=file.filename,
+        filename=str(file.filename),
         image=image,
         prediction=LABELS[prediction_value],
         confidence=confidence_value,
