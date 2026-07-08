@@ -5,7 +5,7 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, HTTPException
 
-from pathmnist_mlops.drift import (
+from pathmnist_mlops.data_drift import (
     create_current_dataframe,
     create_reference_dataframe,
     generate_report,
