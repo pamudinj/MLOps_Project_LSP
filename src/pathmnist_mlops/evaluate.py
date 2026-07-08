@@ -1,15 +1,15 @@
 import os
 from pathlib import Path
-from dotenv import load_dotenv
-import typer
 
 import torch
+import typer
+import wandb
+from dotenv import load_dotenv
 from sklearn.metrics import (
     accuracy_score,
     confusion_matrix,
 )
 
-import wandb
 from pathmnist_mlops.data import (
     get_dataloaders,
 )
@@ -51,12 +51,11 @@ def evaluate(data_modification: str = "raw") -> None:
     """
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    
+
     if data_modification == "raw":
         _, _, test_loader = get_dataloaders(batch_size=64)
     else:
         _, _, test_loader = get_dataloaders(batch_size=64, data_modification="drift")
-    
 
     model = load_model_from_wandb(device)
 
