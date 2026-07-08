@@ -10,13 +10,13 @@ from torchvision import transforms  # type: ignore
 class MyDataset(Dataset):
     """My custom dataset wrapping PathMNIST."""
 
-    def __init__(self, split: str = "train", transform=None) -> None:
-        root = Path(__file__).parents[2] / "data" / "raw"
+    def __init__(self, split: str = "train", transform=None, data_modification = "raw") -> None:
+        root = Path(__file__).parents[2] / "data" / data_modification
         root.mkdir(
             parents=True,
             exist_ok=True,
         )
-        self.dataset = PathMNIST(split=split, transform=transform, download=True, root=root)
+        self.dataset = PathMNIST(split=split, transform=transform, download=False, root=root)
 
     def __len__(self) -> int:
         """Return the length of the dataset."""
@@ -30,12 +30,12 @@ class MyDataset(Dataset):
         return image, label
 
 
-def get_dataloaders(batch_size: int = 32):
+def get_dataloaders(batch_size: int = 32, data_modification: str = "raw"):
     transform = transforms.ToTensor()
 
-    train = MyDataset(split="train", transform=transform)
-    val = MyDataset(split="val", transform=transform)
-    test = MyDataset(split="test", transform=transform)
+    train = MyDataset(split="train", transform=transform, data_modification="raw")
+    val = MyDataset(split="val", transform=transform, data_modification="raw")
+    test = MyDataset(split="test", transform=transform, data_modification=data_modification)
 
     return (  # identified bottleneck using profiling: set num_workers = 3
         DataLoader(train, batch_size=batch_size, shuffle=True, num_workers=3),

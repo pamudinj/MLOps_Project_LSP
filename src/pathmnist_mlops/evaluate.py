@@ -1,5 +1,7 @@
 import os
 from pathlib import Path
+from dotenv import load_dotenv
+import typer
 
 import torch
 from sklearn.metrics import (
@@ -14,6 +16,8 @@ from pathmnist_mlops.data import (
 from pathmnist_mlops.train import (
     PathMNISTClassifier,
 )
+
+load_dotenv()
 
 
 def load_model_from_wandb(
@@ -40,15 +44,19 @@ def load_model_from_wandb(
     return model
 
 
-def evaluate() -> None:
+def evaluate(data_modification: str = "raw") -> None:
     """
     Evaluate model loaded
     from WandB registry.
     """
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
-    _, _, test_loader = get_dataloaders(batch_size=64)
+    
+    if data_modification == "raw":
+        _, _, test_loader = get_dataloaders(batch_size=64)
+    else:
+        _, _, test_loader = get_dataloaders(batch_size=64, data_modification="drift")
+    
 
     model = load_model_from_wandb(device)
 
@@ -85,4 +93,4 @@ def evaluate() -> None:
 
 
 if __name__ == "__main__":
-    evaluate()
+    typer.run(evaluate)

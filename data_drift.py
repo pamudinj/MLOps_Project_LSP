@@ -3,7 +3,6 @@
 from pathlib import Path
 import logging
 
-import numpy as np
 import pandas as pd
 from evidently.legacy.report import Report
 from evidently.legacy.metric_preset import DataDriftPreset
@@ -133,25 +132,7 @@ def create_current_dataframe() -> pd.DataFrame:
         transform=CURRENT_TRANSFORM,
     )
 
-    DRIFTPATH = Path(__file__).parents[2] / "data" / "drift"
-    DRIFTPATH.mkdir(parents=True, exist_ok=True)
-
-    images = []
-    labels = []
-
-    for image, label in dataset:
-        img_np = (image.permute(1, 2, 0).numpy() * 255).round().astype("uint8")
-        images.append(img_np)
-        labels.append(label)
-
-    np.savez_compressed(
-        DRIFTPATH / "pathmnist.npz",
-        test_images=np.stack(images),
-        test_labels=np.array(labels).reshape(-1, 1).astype("uint8"),
-    )
-
     return extract_features(dataset)
-
 
 def generate_report(
     reference_df: pd.DataFrame,
