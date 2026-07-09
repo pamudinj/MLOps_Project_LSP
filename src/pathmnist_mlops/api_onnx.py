@@ -1,6 +1,7 @@
 import csv
-import json
 import io
+import json
+import time
 from contextlib import asynccontextmanager
 from datetime import datetime
 from pathlib import Path
@@ -14,14 +15,10 @@ from fastapi import (
     File,
     UploadFile,
 )
-from PIL import Image
-from torchvision import transforms
-
-import time
-
 from fastapi.responses import Response
+from PIL import Image
 from prometheus_client import CONTENT_TYPE_LATEST, REGISTRY, Counter, Gauge, Histogram, generate_latest
-
+from torchvision import transforms
 
 session: ort.InferenceSession
 transform: transforms.Compose
@@ -59,6 +56,7 @@ CONFIDENCE_SCORE = Gauge(
     "prediction_confidence",
     "Latest prediction confidence.",
 )
+
 
 def log_prediction(
     filename: str,
@@ -153,12 +151,14 @@ def root() -> dict[str, str]:
 
     return {"message": "PathMNIST ONNX inference service"}
 
+
 @app.get("/metrics")
 def metrics() -> Response:
     """
     Expose Prometheus metrics.
     """
     return Response(generate_latest(REGISTRY), media_type=CONTENT_TYPE_LATEST)
+
 
 @app.post("/predict")
 async def predict(file: UploadFile = File(...)) -> dict[str, Any]:
@@ -198,6 +198,8 @@ async def predict(file: UploadFile = File(...)) -> dict[str, Any]:
     INFERENCE_TIME.observe(time.perf_counter() - start_time)
     CONFIDENCE_SCORE.set(confidence_value)
 
+    prediction_value = int(prediction.item())
+
     print(
         json.dumps(
             {
@@ -208,8 +210,6 @@ async def predict(file: UploadFile = File(...)) -> dict[str, Any]:
             }
         )
     )
-
-    prediction_value = int(prediction.item())
 
     log_prediction(
         filename=str(file.filename),

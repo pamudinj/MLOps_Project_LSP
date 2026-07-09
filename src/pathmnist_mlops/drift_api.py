@@ -21,15 +21,11 @@ async def lifespan(app: FastAPI):
     Startup and shutdown events.
     """
 
-    logger.info(
-        "Starting drift detection service..."
-    )
+    logger.info("Starting drift detection service...")
 
     yield
 
-    logger.info(
-        "Stopping drift detection service..."
-    )
+    logger.info("Stopping drift detection service...")
 
 
 app = FastAPI(
@@ -45,10 +41,7 @@ def root() -> dict[str, str]:
     Root endpoint.
     """
 
-    return {
-        "message":
-            "PathMNIST drift detection service."
-    }
+    return {"message": "PathMNIST drift detection service."}
 
 
 @app.post("/detect-drift")
@@ -59,26 +52,15 @@ def detect_drift() -> dict[str, str]:
     """
 
     try:
+        logger.info("Loading reference dataset...")
 
-        logger.info(
-            "Loading reference dataset..."
-        )
+        reference_df = create_reference_dataframe()
 
-        reference_df = (
-            create_reference_dataframe()
-        )
+        logger.info("Loading current dataset...")
 
-        logger.info(
-            "Loading current dataset..."
-        )
+        current_df = create_current_dataframe()
 
-        current_df = (
-            create_current_dataframe()
-        )
-
-        logger.info(
-            "Generating Evidently report..."
-        )
+        logger.info("Generating Evidently report...")
 
         generate_report(
             reference_df,
@@ -87,21 +69,12 @@ def detect_drift() -> dict[str, str]:
 
         return {
             "status": "success",
-            "message": (
-                "Data drift report "
-                "generated successfully."
-            ),
-            "report": (
-                "reports/"
-                "data_drift_report.html"
-            ),
+            "message": ("Data drift report generated successfully."),
+            "report": ("reports/data_drift_report.html"),
         }
 
     except Exception as error:
-
-        logger.exception(
-            "Failed to generate drift report."
-        )
+        logger.exception("Failed to generate drift report.")
 
         raise HTTPException(
             status_code=500,
