@@ -1,0 +1,16 @@
+displayName: "Low prediction confidence"
+combiner: OR
+conditions:
+  - displayName: "Median confidence below 0.6 over 15 min"
+    conditionThreshold:
+      filter: 'metric.type="logging.googleapis.com/user/prediction_confidence" AND resource.type="cloud_run_revision"'
+      comparison: COMPARISON_LT
+      thresholdValue: 0.6
+      duration: 900s
+      aggregations:
+        - alignmentPeriod: 900s
+          perSeriesAligner: ALIGN_PERCENTILE_50
+notificationChannels:
+  - "projects/mlops-project-497719/notificationChannels/6093809043285848103"
+  - "projects/mlops-project-497719/notificationChannels/2643452834783416876"
+  - "projects/mlops-project-497719/notificationChannels/6093809043285850921"
