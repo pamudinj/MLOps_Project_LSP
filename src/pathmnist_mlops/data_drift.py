@@ -4,7 +4,7 @@ import logging
 from pathlib import Path
 
 import numpy as np
-import pandas as pd
+import pandas as pd     # type: ignore
 from evidently.legacy.metric_preset import DataDriftPreset  # type: ignore
 from evidently.legacy.report import Report  # type: ignore
 from medmnist import PathMNIST  # type: ignore
