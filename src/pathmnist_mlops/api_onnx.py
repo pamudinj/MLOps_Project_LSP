@@ -1,4 +1,5 @@
 import csv
+import json
 import io
 from contextlib import asynccontextmanager
 from datetime import datetime
@@ -196,6 +197,17 @@ async def predict(file: UploadFile = File(...)) -> dict[str, Any]:
 
     INFERENCE_TIME.observe(time.perf_counter() - start_time)
     CONFIDENCE_SCORE.set(confidence_value)
+
+    print(
+        json.dumps(
+            {
+                "severity": "INFO",
+                "message": "prediction",
+                "prediction": LABELS[prediction_value],
+                "confidence": confidence_value,
+            }
+        )
+    )
 
     prediction_value = int(prediction.item())
 
