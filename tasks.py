@@ -53,6 +53,13 @@ def test(ctx: Context) -> None:
 
 
 @task
+def optimize_inference(ctx: Context, checkpoint: str = "", use_wandb: bool = False) -> None:
+    """Benchmark quantization, pruning and torch.compile against the trained model."""
+    extra = f"--checkpoint {checkpoint}" if checkpoint else ("--use-wandb" if use_wandb else "")
+    ctx.run(f"python src/{PROJECT_NAME}/optimize_inference.py {extra}", echo=True, pty=not WINDOWS)
+
+
+@task
 def docker_build(ctx: Context, progress: str = "plain") -> None:
     """Build docker images."""
     ctx.run(
