@@ -10,7 +10,7 @@ from torchvision import transforms  # type: ignore
 class MyDataset(Dataset):
     """My custom dataset wrapping PathMNIST."""
 
-    def __init__(self, split: str = "train", transform=None, data_modification = "raw") -> None:
+    def __init__(self, split: str = "train", transform=None, data_modification="raw") -> None:
         root = Path(__file__).parents[2] / "data" / data_modification
         root.mkdir(
             parents=True,

@@ -1,7 +1,12 @@
+import csv
+import json
 import io
 from contextlib import asynccontextmanager
+from datetime import datetime
+from pathlib import Path
 from typing import Any
 
+import numpy as np
 import onnxruntime as ort  # type: ignore
 import torch
 from fastapi import (
@@ -11,6 +16,12 @@ from fastapi import (
 )
 from PIL import Image
 from torchvision import transforms
+
+import time
+
+from fastapi.responses import Response
+from prometheus_client import CONTENT_TYPE_LATEST, REGISTRY, Counter, Gauge, Histogram, generate_latest
+
 
 session: ort.InferenceSession
 transform: transforms.Compose
@@ -26,6 +37,76 @@ LABELS = [
     "cancer-associated stroma",
     "colorectal adenocarcinoma epithelium",
 ]
+
+LOG_DIR = Path("monitoring")
+LOG_DIR.mkdir(
+    parents=True,
+    exist_ok=True,
+)
+LOG_FILE = LOG_DIR / "inference_log.csv"
+
+REQUEST_COUNT = Counter(
+    "prediction_requests_total",
+    "Total number of prediction requests.",
+)
+
+INFERENCE_TIME = Histogram(
+    "prediction_inference_seconds",
+    "Inference time in seconds.",
+)
+
+CONFIDENCE_SCORE = Gauge(
+    "prediction_confidence",
+    "Latest prediction confidence.",
+)
+
+def log_prediction(
+    filename: str,
+    image: Image.Image,
+    prediction: str,
+    confidence: float,
+) -> None:
+    """
+    Log inference input and output to the monitoring csv.
+    """
+
+    image_np = np.asarray(image)
+    new_file = not LOG_FILE.exists()
+
+    with open(
+        LOG_FILE,
+        "a",
+        newline="",
+    ) as file:
+        writer = csv.writer(file)
+        if new_file:
+            writer.writerow(
+                [
+                    "timestamp",
+                    "filename",
+                    "prediction",
+                    "confidence",
+                    "mean",
+                    "std",
+                    "red_mean",
+                    "green_mean",
+                    "blue_mean",
+                ]
+            )
+
+        writer.writerow(
+            [
+                datetime.utcnow().isoformat(),
+                filename,
+                prediction,
+                confidence,
+                float(image_np.mean()),
+                float(image_np.std()),
+                float(image_np[:, :, 0].mean()),
+                float(image_np[:, :, 1].mean()),
+                float(image_np[:, :, 2].mean()),
+            ]
+        )
 
 
 @asynccontextmanager
@@ -72,6 +153,12 @@ def root() -> dict[str, str]:
 
     return {"message": "PathMNIST ONNX inference service"}
 
+@app.get("/metrics")
+def metrics() -> Response:
+    """
+    Expose Prometheus metrics.
+    """
+    return Response(generate_latest(REGISTRY), media_type=CONTENT_TYPE_LATEST)
 
 @app.post("/predict")
 async def predict(file: UploadFile = File(...)) -> dict[str, Any]:
@@ -79,6 +166,9 @@ async def predict(file: UploadFile = File(...)) -> dict[str, Any]:
     Predict pathology class
     from uploaded image.
     """
+
+    REQUEST_COUNT.inc()
+    start_time = time.perf_counter()
 
     image_bytes = await file.read()
 
@@ -105,7 +195,28 @@ async def predict(file: UploadFile = File(...)) -> dict[str, Any]:
 
     confidence_value = float(confidence.item())
 
+    INFERENCE_TIME.observe(time.perf_counter() - start_time)
+    CONFIDENCE_SCORE.set(confidence_value)
+
+    print(
+        json.dumps(
+            {
+                "severity": "INFO",
+                "message": "prediction",
+                "prediction": LABELS[prediction_value],
+                "confidence": confidence_value,
+            }
+        )
+    )
+
     prediction_value = int(prediction.item())
+
+    log_prediction(
+        filename=str(file.filename),
+        image=image,
+        prediction=LABELS[prediction_value],
+        confidence=confidence_value,
+    )
 
     return {
         "prediction_index": prediction_value,

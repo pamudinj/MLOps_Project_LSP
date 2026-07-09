@@ -23,5 +23,4 @@ RUN pip install . --no-deps
 
 EXPOSE $PORT
 
-CMD uvicorn pathmnist_mlops.api_onnx:app \
-    --host 0.0.0.0 --port ${PORT:-8080}
+CMD ["uvicorn", "pathmnist_mlops.api_onnx:app", "--host", "0.0.0.0", "--port", "8080"]

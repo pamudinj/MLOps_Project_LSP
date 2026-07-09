@@ -1,15 +1,14 @@
 """Generate an Evidently data drift report for PathMNIST."""
 
-from pathlib import Path
 import logging
+from pathlib import Path
 
 import pandas as pd
-from evidently.legacy.report import Report
 from evidently.legacy.metric_preset import DataDriftPreset
+from evidently.legacy.report import Report
 from medmnist import PathMNIST  # type: ignore
 from PIL import Image
 from torchvision import transforms
-
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -85,7 +84,6 @@ def extract_features(
     rows: list[dict[str, float]] = []
 
     for image, _ in dataset:
-
         image_np = image.numpy()
 
         rows.append(
@@ -134,6 +132,7 @@ def create_current_dataframe() -> pd.DataFrame:
 
     return extract_features(dataset)
 
+
 def generate_report(
     reference_df: pd.DataFrame,
     current_df: pd.DataFrame,
@@ -161,9 +160,7 @@ def generate_report(
         exist_ok=True,
     )
 
-    report.save_html(
-        str(REPORT_PATH)
-    )
+    report.save_html(str(REPORT_PATH))
 
     logger.info(
         "Drift report saved to %s",
@@ -176,21 +173,13 @@ def main() -> None:
     Run the complete data drift pipeline.
     """
 
-    logger.info(
-        "Creating reference dataframe..."
-    )
+    logger.info("Creating reference dataframe...")
 
-    reference_df = (
-        create_reference_dataframe()
-    )
+    reference_df = create_reference_dataframe()
 
-    logger.info(
-        "Creating current dataframe..."
-    )
+    logger.info("Creating current dataframe...")
 
-    current_df = (
-        create_current_dataframe()
-    )
+    current_df = create_current_dataframe()
 
     logger.info(
         "Reference samples: %d",
