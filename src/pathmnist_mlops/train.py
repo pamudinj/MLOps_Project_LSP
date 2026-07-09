@@ -127,6 +127,7 @@ def train(cfg: DictConfig) -> None:
         log_every_n_steps=cfg.training.log_every_n_steps,
         accelerator="auto",
         devices="auto",
+        strategy="ddp",
     )
 
     trainer.fit(model, train_loader, val_loader)

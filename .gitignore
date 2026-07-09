@@ -183,6 +183,7 @@ additional_codes.py
 dockerfiles/artifact.dockerfile
 data/
 models/*
+artifacts/
 !models/.gitkeep
 .github/workflows/cloudbuild.yaml
 wandb/

@@ -4,9 +4,9 @@ import logging
 from pathlib import Path
 
 import numpy as np
-import pandas as pd
-from evidently.legacy.metric_preset import DataDriftPreset
-from evidently.legacy.report import Report
+import pandas as pd     # type: ignore
+from evidently.legacy.metric_preset import DataDriftPreset  # type: ignore
+from evidently.legacy.report import Report  # type: ignore
 from medmnist import PathMNIST  # type: ignore
 from PIL import Image
 from torchvision import transforms
@@ -27,19 +27,6 @@ REFERENCE_TRANSFORM = transforms.Compose(
         transforms.ToTensor(),
     ]
 )
-
-# CURRENT_TRANSFORM = transforms.Compose(
-#     [
-#         transforms.ColorJitter(
-#             brightness=0.35,
-#             contrast=0.35,
-#             saturation=0.25,
-#             hue=0.05,
-#         ),
-#         transforms.GaussianBlur(kernel_size=3),
-#         transforms.ToTensor(),
-#     ]
-# )
 
 CURRENT_TRANSFORM = transforms.Compose(
     [
@@ -131,8 +118,8 @@ def create_current_dataframe() -> pd.DataFrame:
         transform=CURRENT_TRANSFORM,
     )
 
-    DRIFTPATH = Path(__file__).parents[2] / "data" / "drift"
-    DRIFTPATH.mkdir(parents=True, exist_ok=True)
+    drift_path = Path(__file__).parents[2] / "data" / "drift"
+    drift_path.mkdir(parents=True, exist_ok=True)
 
     images = []
     labels = []
@@ -143,7 +130,7 @@ def create_current_dataframe() -> pd.DataFrame:
         labels.append(label)
 
     np.savez_compressed(
-        DRIFTPATH / "pathmnist.npz",
+        drift_path / "pathmnist.npz",
         test_images=np.stack(images),
         test_labels=np.array(labels).reshape(-1, 1).astype("uint8"),
     )
