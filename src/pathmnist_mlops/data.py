@@ -16,7 +16,7 @@ class MyDataset(Dataset):
             parents=True,
             exist_ok=True,
         )
-        self.dataset = PathMNIST(split=split, transform=transform, download=False, root=root)
+        self.dataset = PathMNIST(split=split, transform=transform, download=True, root=root)
 
     def __len__(self) -> int:
         """Return the length of the dataset."""
