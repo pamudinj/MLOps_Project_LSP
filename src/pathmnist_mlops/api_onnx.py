@@ -16,6 +16,12 @@ from fastapi import (
 from PIL import Image
 from torchvision import transforms
 
+import time
+
+from fastapi.responses import Response
+from prometheus_client import CONTENT_TYPE_LATEST, REGISTRY, Counter, Gauge, Histogram, generate_latest
+
+
 session: ort.InferenceSession
 transform: transforms.Compose
 
@@ -38,6 +44,20 @@ LOG_DIR.mkdir(
 )
 LOG_FILE = LOG_DIR / "inference_log.csv"
 
+REQUEST_COUNT = Counter(
+    "prediction_requests_total",
+    "Total number of prediction requests.",
+)
+
+INFERENCE_TIME = Histogram(
+    "prediction_inference_seconds",
+    "Inference time in seconds.",
+)
+
+CONFIDENCE_SCORE = Gauge(
+    "prediction_confidence",
+    "Latest prediction confidence.",
+)
 
 def log_prediction(
     filename: str,
@@ -132,6 +152,12 @@ def root() -> dict[str, str]:
 
     return {"message": "PathMNIST ONNX inference service"}
 
+@app.get("/metrics")
+def metrics() -> Response:
+    """
+    Expose Prometheus metrics.
+    """
+    return Response(generate_latest(REGISTRY), media_type=CONTENT_TYPE_LATEST)
 
 @app.post("/predict")
 async def predict(file: UploadFile = File(...)) -> dict[str, Any]:
@@ -139,6 +165,9 @@ async def predict(file: UploadFile = File(...)) -> dict[str, Any]:
     Predict pathology class
     from uploaded image.
     """
+
+    REQUEST_COUNT.inc()
+    start_time = time.perf_counter()
 
     image_bytes = await file.read()
 
@@ -164,6 +193,9 @@ async def predict(file: UploadFile = File(...)) -> dict[str, Any]:
     )
 
     confidence_value = float(confidence.item())
+
+    INFERENCE_TIME.observe(time.perf_counter() - start_time)
+    CONFIDENCE_SCORE.set(confidence_value)
 
     prediction_value = int(prediction.item())
 

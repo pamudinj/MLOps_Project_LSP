@@ -14,3 +14,4 @@ pandas==3.0.3
 evidently==0.7.21
 numpy==2.4.6
 medmnist==3.0.2
+prometheus-client==0.21.1
