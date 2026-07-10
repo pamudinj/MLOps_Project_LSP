@@ -62,7 +62,7 @@ def detect_drift() -> dict[str, str]:
 
         logger.info("Generating Evidently report...")
 
-        generate_report(
+        gcs_uri = generate_report(
             reference_df,
             current_df,
         )
@@ -70,7 +70,7 @@ def detect_drift() -> dict[str, str]:
         return {
             "status": "success",
             "message": ("Data drift report generated successfully."),
-            "report": ("reports/data_drift_report.html"),
+            "report": gcs_uri or "reports/data_drift_report.html",
         }
 
     except Exception as error:

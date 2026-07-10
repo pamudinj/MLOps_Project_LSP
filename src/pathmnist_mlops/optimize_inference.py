@@ -26,11 +26,15 @@ from pathlib import Path
 
 import torch
 import typer
+from typing import cast
+from typing import TypedDict
 from torch import nn
 from torch.nn.utils import prune
 
 from pathmnist_mlops.evaluate import load_model_from_wandb
 from pathmnist_mlops.train import PathMNISTClassifier
+
+torch.manual_seed(55)
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -145,7 +149,11 @@ def select_quantization_engine() -> str | None:
             "build. Quantization variants will be skipped."
         )
         return None
-    engine = "x86" if "x86" in engines else ("fbgemm" if "fbgemm" in engines else ("qnnpack" if "qnnpack" in engines else engines[0]))
+    engine = (
+        "x86"
+        if "x86" in engines
+        else ("fbgemm" if "fbgemm" in engines else ("qnnpack" if "qnnpack" in engines else engines[0]))
+    )
     torch.backends.quantized.engine = engine
     return engine
 
@@ -233,7 +241,7 @@ def apply_compile(model: nn.Module, dummy_input: torch.Tensor) -> nn.Module | No
     to actually catch backend/toolchain failures (e.g. missing C++ compiler headers).
     """
     try:
-        compiled = torch.compile(model)
+        compiled = cast(nn.Module, torch.compile(model))
         with torch.no_grad():
             compiled(dummy_input)
         return compiled
@@ -244,6 +252,14 @@ def apply_compile(model: nn.Module, dummy_input: torch.Tensor) -> nn.Module | No
         except Exception:  # noqa: BLE001
             pass
         return None
+
+
+class BenchmarkResult(TypedDict):
+    variant: str
+    latency_ms_per_batch: float
+    throughput_img_per_sec: float
+    size_mb: float
+    accuracy: float | None
 
 
 # --------------------------------------------------------------------------- #
@@ -267,7 +283,7 @@ def optimize_inference(
     dummy_input = torch.rand(batch_size, *IMAGE_SHAPE, device=dev)
     test_loader = try_get_test_loader(batch_size)
 
-    results = []
+    results: list[BenchmarkResult] = []
 
     def record(name: str, model: nn.Module | None, input_tensor: torch.Tensor):
         if model is None:

@@ -96,6 +96,8 @@ def train(cfg: DictConfig) -> None:
     Loads train and validation dataloaders, trains the model,
     and saves the best checkpoint to the models/ directory.
     """
+    pl.seed_everything(cfg.training.seed, workers=True)
+
     logger.info("Loading data...")
 
     train_loader, val_loader, _ = get_dataloaders(cfg.training.batch_size)

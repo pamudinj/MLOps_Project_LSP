@@ -43,3 +43,7 @@ ignore_missing_imports = true
 [[tool.mypy.overrides]]
 module = ["torchvision.*"]
 ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = ["prometheus_client.*"]
+ignore_missing_imports = true

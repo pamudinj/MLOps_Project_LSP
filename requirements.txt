@@ -24,3 +24,4 @@ onnxruntime==1.26.0
 onnxscript==0.7.0
 evidently==0.7.21
 prometheus-client==0.21.1
+google-cloud-storage==3.12.1
