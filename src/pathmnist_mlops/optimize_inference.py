@@ -32,6 +32,8 @@ from torch.nn.utils import prune
 from pathmnist_mlops.evaluate import load_model_from_wandb
 from pathmnist_mlops.train import PathMNISTClassifier
 
+torch.manual_seed(55)
+
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 

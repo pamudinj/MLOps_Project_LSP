@@ -11,7 +11,9 @@ from evidently.legacy.report import Report  # type: ignore
 from google.cloud import storage  # type: ignore
 from medmnist import PathMNIST  # type: ignore
 from PIL import Image
+import torch
 from torchvision import transforms
+import random
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -151,6 +153,9 @@ def create_current_dataframe() -> pd.DataFrame:
 
     logger.info("Loading current dataset...")
 
+    random.seed(55)
+    torch.manual_seed(55)
+    
     dataset = load_dataset(
         split="test",
         transform=CURRENT_TRANSFORM,
