@@ -53,6 +53,8 @@ def load_dataset(
     Load a PathMNIST split.
     """
 
+    ROOT.mkdir(parents=True, exist_ok=True)
+
     return PathMNIST(
         split=split,
         root=ROOT,
