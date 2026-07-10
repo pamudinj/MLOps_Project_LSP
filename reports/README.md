@@ -123,7 +123,7 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 1 fill here ---
+Group E
 
 ### Question 2
 > **Enter the study number for each member in the group**
@@ -148,7 +148,7 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 3 fill here ---
+Yes. We used the MedMNIST package, which was not part of the course material, to provide access to the PathMNIST dataset used throughout the project. The package offers a standardized interface for downloading, loading, and managing the train, validation, and test splits, allowing us to integrate the dataset directly into PyTorch dataloaders with minimal preprocessing. This reduced the amount of custom data handling code and ensured that our experiments were reproducible. In addition, MedMNIST provides benchmark datasets specifically designed for medical image classification, making it well suited for evaluating our convolutional neural network. By using MedMNIST, we were able to focus on implementing the MLOps pipeline including model training, deployment, monitoring, and drift detection rather than spending time on dataset preparation and organization.
 
 ## Coding environment
 
@@ -168,7 +168,18 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 4 fill here ---
+We managed dependencies using pip within a dedicated Python virtual environment. The project dependencies were maintained through requirement files, including separate requirements_backend.txt and requirements_frontend.txt for the deployment services. Docker was also used to package the backend and frontend into reproducible containers, ensuring consistent execution across different environments. To obtain an identical development environment, a new team member would clone the GitHub repository, create and activate a virtual environment, and install the required dependencies using pip. The setup process is:
+
+```bash
+git clone <GitHub_repository_URL>
+cd <project_directory>
+
+python -m venv .venv
+source .venv/bin/activate      # Linux/macOS
+.venv\Scripts\activate       # Windows
+
+pip install -r requirements.txt
+```
 
 ### Question 5
 
@@ -184,7 +195,7 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 5 fill here ---
+We initialized the project using the DTU MLOps cookiecutter template and preserved its overall directory structure. The main development took place in the src/pathmnist_mlops package, where we implemented modules for data loading (data.py), model training (train.py), evaluation (evaluate.py), FastAPI inference (api.py), ONNX inference (api_onnx.py), ONNX model export (export_onnx.py), data drift detection (data_drift.py and drift_api.py), dataset statistics, and inference optimization. The tests directory was expanded with unit, API, and performance tests, while the dockerfiles directory was extended with Dockerfiles for the backend, frontend, and drift detection service. We also added a monitoring directory containing monitoring and alert configuration files for Google Cloud Monitoring. In addition, we customized the project by integrating DVC for data versioning, GitHub Actions for continuous integration, Weights & Biases for experiment tracking, and Google Cloud Run for deployment, while keeping the original cookiecutter organization intact. At this stage of the project, we did not make modifications to some of the template folders, including docs, notebooks, models, and .devcontainer.
 
 ### Question 6
 
@@ -199,7 +210,7 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 6 fill here ---
+Yes. We implemented several code quality practices throughout the project. Ruff was used for both linting and code formatting to ensure a consistent coding style and detect common programming issues. mypy was used for static type checking, helping identify type-related errors before runtime. We also configured pre-commit hooks to automatically run quality checks before each commit, and GitHub Actions to execute these checks as part of the continuous integration pipeline. In addition, we documented our modules and functions using Python docstrings and included type hints throughout the codebase to improve readability and maintainability. These practices are particularly important in larger projects involving multiple developers. Consistent formatting makes the code easier to read, static typing helps detect bugs early and clarifies function interfaces, and documentation allows new contributors to understand the code more quickly. Automated quality checks ensure that coding standards are applied consistently across the project, reducing integration issues and making the codebase more reliable and maintainable over time.
 
 ## Version control
 
@@ -218,7 +229,7 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 7 fill here ---
+We implemented nine automated tests and one performance test. The automated tests verify the data pipeline, model, and API. The data tests ensure that the dataset and dataloaders return correctly formatted samples and batches. The model tests verify model initialization, forward passes, and output dimensions. The API tests validate the root, Swagger documentation, and OpenAPI schema endpoints. Additionally, we implemented a Locust load test to evaluate the responsiveness of the deployed inference API under concurrent user requests.
 
 ### Question 8
 
@@ -233,7 +244,7 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 8 fill here ---
+The overall code coverage of our project is 52%. The highest coverage was achieved for the core components, with 80% coverage for both the data loading and model modules, as these are well suited for unit testing. Lower coverage was observed for the API (41%) and training pipeline (41%), primarily because they include functionality such as Weights & Biases artifact loading, PyTorch Lightning training, Hydra configuration, checkpoint management, and model deployment, which depend on external services or long-running processes. These components are generally better validated through integration and end-to-end testing rather than isolated unit tests. Even if our code coverage were close to 100%, we would not assume the software to be error free. Code coverage only indicates which lines of code were executed during testing; it does not guarantee that the tests verify correct behavior or cover all edge cases. Therefore, meaningful test design, code reviews, static analysis, and integration testing remain essential for ensuring software quality.
 
 ### Question 9
 
@@ -248,7 +259,7 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 9 fill here ---
+Yes. We followed a branch-based development workflow throughout the project. Our team maintained a stable main branch and used a shared develop branch for integrating new features. Individual changes were first committed and pushed to the develop branch, where automated quality checks and tests were executed through our GitHub Actions continuous integration pipeline. Only after these checks passed successfully were the changes merged into the main branch using a Pull Request (PR). Pull requests allowed team members to review each other's code, discuss implementation decisions, and identify potential issues before merging. This workflow helped prevent unstable or untested code from reaching the main branch while maintaining a clear history of changes. Using branches and pull requests also made collaboration more organized by allowing multiple team members to work on different tasks simultaneously without interfering with each other's work, ultimately improving code quality, traceability, and project maintainability.
 
 ### Question 10
 
@@ -263,7 +274,7 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 10 fill here ---
+Yes. We integrated Data Version Control (DVC) into our project to version the PathMNIST dataset and configure remote storage for managing data outside the Git repository. Since the dataset remained unchanged throughout the project, we did not create multiple dataset versions after the initial setup. However, using DVC demonstrated how large datasets can be tracked without storing them directly in Git and ensured that all team members could access the same data used for training and evaluation. The DVC metadata files were version controlled alongside the source code, helping maintain consistency between the codebase and the dataset. Although our project did not require frequent dataset updates, DVC provides an effective solution for larger projects where datasets evolve over time, allowing previous versions to be reproduced, shared, and restored while keeping the Git repository lightweight.
 
 ### Question 11
 
@@ -280,7 +291,9 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 11 fill here ---
+We organized our continuous integration into multiple GitHub Actions workflows, each responsible for a different aspect of the project. Separate workflows were created for unit testing, API testing, code linting, DVC integration, model registry evaluation, and container building. Most workflows are triggered by **pull requests to the main branch`, while the container build workflow is triggered by pushes affecting deployment-related files. We also used path-based triggers so that workflows only run when relevant files are modified, reducing unnecessary CI execution.
+The code quality workflow checks formatting using Ruff and performs static type checking with mypy. The unit testing workflow executes the complete test suite, generates a coverage report, and runs on both Ubuntu and Windows using Python 3.12 to verify cross-platform compatibility. The API workflow validates the FastAPI endpoints, while the DVC workflow authenticates with Google Cloud, retrieves the tracked dataset, and runs dataset statistics. The model registry workflow evaluates the latest model stored in Weights & Biases, and a separate workflow submits a Google Cloud Build job to build the training container. We also enabled pip dependency caching in several workflows to reduce installation time. Overall, our CI pipeline automatically validates code quality, testing, data management, model evaluation, and deployment, helping maintain a reliable and reproducible MLOps workflow.
+Workflows: https://github.com/pamudinj/MLOps_Project_LSP/tree/main/.github/workflows
 
 ## Running code and tracking experiments
 
