@@ -26,6 +26,8 @@ from pathlib import Path
 
 import torch
 import typer
+from typing import cast
+from typing import TypedDict
 from torch import nn
 from torch.nn.utils import prune
 
@@ -239,7 +241,7 @@ def apply_compile(model: nn.Module, dummy_input: torch.Tensor) -> nn.Module | No
     to actually catch backend/toolchain failures (e.g. missing C++ compiler headers).
     """
     try:
-        compiled = torch.compile(model)
+        compiled = cast(nn.Module, torch.compile(model))
         with torch.no_grad():
             compiled(dummy_input)
         return compiled
@@ -250,6 +252,14 @@ def apply_compile(model: nn.Module, dummy_input: torch.Tensor) -> nn.Module | No
         except Exception:  # noqa: BLE001
             pass
         return None
+    
+    
+class BenchmarkResult(TypedDict):
+    variant: str
+    latency_ms_per_batch: float
+    throughput_img_per_sec: float
+    size_mb: float
+    accuracy: float | None
 
 
 # --------------------------------------------------------------------------- #
@@ -273,7 +283,7 @@ def optimize_inference(
     dummy_input = torch.rand(batch_size, *IMAGE_SHAPE, device=dev)
     test_loader = try_get_test_loader(batch_size)
 
-    results = []
+    results: list[BenchmarkResult] = []
 
     def record(name: str, model: nn.Module | None, input_tensor: torch.Tensor):
         if model is None:
@@ -342,7 +352,7 @@ def optimize_inference(
 
     baseline_ms = results[0]["latency_ms_per_batch"]
     speedups = "\n".join(
-        f"- {r['variant']}: {baseline_ms / r['latency_ms_per_batch']:.2f}x baseline" for r in results[1:]
+    f"- {r['variant']}: {baseline_ms / r['latency_ms_per_batch']:.2f}x baseline" for r in results[1:]
     )
 
     md_path.write_text(
