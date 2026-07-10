@@ -252,8 +252,8 @@ def apply_compile(model: nn.Module, dummy_input: torch.Tensor) -> nn.Module | No
         except Exception:  # noqa: BLE001
             pass
         return None
-    
-    
+
+
 class BenchmarkResult(TypedDict):
     variant: str
     latency_ms_per_batch: float
@@ -352,7 +352,7 @@ def optimize_inference(
 
     baseline_ms = results[0]["latency_ms_per_batch"]
     speedups = "\n".join(
-    f"- {r['variant']}: {baseline_ms / r['latency_ms_per_batch']:.2f}x baseline" for r in results[1:]
+        f"- {r['variant']}: {baseline_ms / r['latency_ms_per_batch']:.2f}x baseline" for r in results[1:]
     )
 
     md_path.write_text(
