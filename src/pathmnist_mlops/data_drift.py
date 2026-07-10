@@ -1,12 +1,14 @@
 """Generate an Evidently data drift report for PathMNIST."""
 
 import logging
+import os
 from pathlib import Path
 
 import numpy as np
 import pandas as pd     # type: ignore
 from evidently.legacy.metric_preset import DataDriftPreset  # type: ignore
 from evidently.legacy.report import Report  # type: ignore
+from google.cloud import storage  # type: ignore
 from medmnist import PathMNIST  # type: ignore
 from PIL import Image
 from torchvision import transforms
@@ -91,6 +93,40 @@ def extract_features(
     return pd.DataFrame(rows)
 
 
+def upload_report_to_gcs(
+    local_path: Path,
+    blob_name: str = "drift_reports/data_drift_report.html",
+) -> str | None:
+    """
+    Upload the generated report to GCS so it survives past the lifetime of the
+    (stateless) container that created it. Returns the gs:// URI on success,
+    or None if the upload was skipped or failed - callers should treat that as
+    non-fatal, since the report still exists locally either way.
+    """
+
+    bucket_name = os.getenv("DRIFT_REPORTS_BUCKET")
+
+    if not bucket_name:
+        logger.warning(
+            "DRIFT_REPORTS_BUCKET not set - skipping GCS upload, "
+            "report only exists inside the container."
+        )
+        return None
+
+    try:
+        client = storage.Client()
+        bucket = client.bucket(bucket_name)
+        blob = bucket.blob(blob_name)
+        blob.upload_from_filename(str(local_path))
+
+        gcs_uri = f"gs://{bucket_name}/{blob_name}"
+        logger.info(f"Uploaded drift report to {gcs_uri}")
+        return gcs_uri
+    except Exception as e:  # noqa: BLE001
+        logger.warning(f"Failed to upload drift report to GCS ({e}). Report only exists in the container.")
+        return None
+    
+
 def create_reference_dataframe() -> pd.DataFrame:
     """
     Create reference dataframe from
@@ -143,10 +179,11 @@ def create_current_dataframe() -> pd.DataFrame:
 def generate_report(
     reference_df: pd.DataFrame,
     current_df: pd.DataFrame,
-) -> None:
+) -> str | None:
     """
-    Generate and save an Evidently
-    data drift report.
+    Generate and save an Evidently data drift report, then upload it to GCS.
+
+    Returns the gs:// URI if the upload succeeded, else None.
     """
 
     logger.info("Generating drift report...")
@@ -173,6 +210,8 @@ def generate_report(
         "Drift report saved to %s",
         REPORT_PATH,
     )
+
+    return upload_report_to_gcs(REPORT_PATH)
 
 
 def main() -> None:
