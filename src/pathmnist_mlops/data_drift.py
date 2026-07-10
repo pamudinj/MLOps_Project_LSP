@@ -5,7 +5,7 @@ import os
 from pathlib import Path
 
 import numpy as np
-import pandas as pd     # type: ignore
+import pandas as pd  # type: ignore
 from evidently.legacy.metric_preset import DataDriftPreset  # type: ignore
 from evidently.legacy.report import Report  # type: ignore
 from google.cloud import storage  # type: ignore
@@ -109,10 +109,7 @@ def upload_report_to_gcs(
     bucket_name = os.getenv("DRIFT_REPORTS_BUCKET")
 
     if not bucket_name:
-        logger.warning(
-            "DRIFT_REPORTS_BUCKET not set - skipping GCS upload, "
-            "report only exists inside the container."
-        )
+        logger.warning("DRIFT_REPORTS_BUCKET not set - skipping GCS upload, report only exists inside the container.")
         return None
 
     try:
@@ -127,7 +124,7 @@ def upload_report_to_gcs(
     except Exception as e:  # noqa: BLE001
         logger.warning(f"Failed to upload drift report to GCS ({e}). Report only exists in the container.")
         return None
-    
+
 
 def create_reference_dataframe() -> pd.DataFrame:
     """
@@ -155,7 +152,7 @@ def create_current_dataframe() -> pd.DataFrame:
 
     random.seed(55)
     torch.manual_seed(55)
-    
+
     dataset = load_dataset(
         split="test",
         transform=CURRENT_TRANSFORM,

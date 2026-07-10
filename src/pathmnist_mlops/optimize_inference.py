@@ -147,7 +147,11 @@ def select_quantization_engine() -> str | None:
             "build. Quantization variants will be skipped."
         )
         return None
-    engine = "x86" if "x86" in engines else ("fbgemm" if "fbgemm" in engines else ("qnnpack" if "qnnpack" in engines else engines[0]))
+    engine = (
+        "x86"
+        if "x86" in engines
+        else ("fbgemm" if "fbgemm" in engines else ("qnnpack" if "qnnpack" in engines else engines[0]))
+    )
     torch.backends.quantized.engine = engine
     return engine
 
