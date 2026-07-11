@@ -229,7 +229,7 @@ Yes. We implemented several code quality practices throughout the project. Ruff 
 >
 > Answer:
 
-We implemented 22 automated tests and one performance test. The automated tests cover the data pipeline, model, training module, and both inference APIs. They verify dataset loading, dataloader outputs, model initialization, forward passes, optimizer configuration, training and validation steps, API endpoints, prediction functionality, model loading, inference logging, and Prometheus metrics. We also implemented a Locust performance test to evaluate the inference API under concurrent user requests.
+We implemented 21 automated tests and one performance test. The automated tests cover the data pipeline, model, training module, and both inference APIs. They verify dataset loading, dataloader outputs, model initialization, forward passes, optimizer configuration, training and validation steps, API endpoints, prediction functionality, lazy model retrieval, inference logging, and Prometheus metrics. We also implemented a Locust performance test to evaluate the inference API under concurrent user requests.
 
 ### Question 8
 
@@ -244,7 +244,7 @@ We implemented 22 automated tests and one performance test. The automated tests 
 >
 > Answer:
 
-The overall code coverage of our project is 75%. The highest coverage was achieved for the core components, with 84% coverage for the FastAPI inference API and 80% coverage for both the data loading and model modules. The ONNX inference API achieved 66% coverage, while the training pipeline achieved 73% coverage. The remaining uncovered code is primarily related to application startup, configuration, external service integration, and training orchestration, which are difficult to validate using isolated unit tests and are more appropriately tested through integration or end-to-end testing. Even if our code coverage were close to 100%, we would not assume the software to be error free. Code coverage only measures which lines of code were executed during testing. It does not guarantee that the tests verify correct behavior or cover all edge cases. Therefore, meaningful test design, integration testing, static analysis, and code reviews remain essential for ensuring software quality.
+The overall code coverage of our project is 73%. The highest coverage was achieved for the core components, with 80% coverage for both the data loading and model modules. The FastAPI inference API achieved 75% coverage, the training pipeline 73%, and the ONNX inference API 66%. The remaining uncovered code is primarily related to application startup, configuration, external service integration, and training orchestration, which are difficult to validate using isolated unit tests and are more appropriately tested through integration or end-to-end testing. Even if our code coverage were close to 100%, we would not assume the software to be error free. Code coverage only measures which lines of code were executed during testing. It does not guarantee that the tests verify correct behavior or cover all edge cases. Therefore, meaningful test design, integration testing, static analysis, and code reviews remain essential for ensuring software quality.
 
 ### Question 9
 
