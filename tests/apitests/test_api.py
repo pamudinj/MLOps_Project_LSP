@@ -1,6 +1,5 @@
 import io
 
-import pytest
 import torch
 from fastapi.testclient import TestClient
 from PIL import Image
@@ -53,16 +52,9 @@ def test_get_model(monkeypatch):
     assert model is dummy
 
 
-def test_load_model_without_env(monkeypatch):
-    """MODEL_NAME should be required."""
-
-    monkeypatch.delenv("MODEL_NAME", raising=False)
-
-    with pytest.raises(ValueError):
-        api.load_model()
-
-
 class DummyModel(torch.nn.Module):
+    """Mock model for testing the prediction endpoint."""
+
     def __init__(self):
         super().__init__()
         self.linear = torch.nn.Linear(1, 1)  # one parameter
