@@ -1,0 +1,20 @@
+steps:
+
+  - name: "gcr.io/cloud-builders/docker"
+
+    args:
+      [
+        "build",
+
+        "-f",
+        "dockerfiles/train.dockerfile",
+
+        "-t",
+        "europe-west1-docker.pkg.dev/mlops-project-497719/mlops-container-registry/pathmnist-train:latest",
+
+        ".",
+      ]
+
+images:
+
+  - "europe-west1-docker.pkg.dev/mlops-project-497719/mlops-container-registry/pathmnist-train:latest"
