@@ -7,9 +7,9 @@ on:
       - main
 
     paths:
-      - "dockerfiles/train.dockerfile"
-      - "cloudbuild_containers.yaml"
-      - ".github/workflows/build_container.yaml"
+      - "dockerfiles/drift_api.dockerfile"
+      - "cloudbuild_drift_api.yaml"
+      - ".github/workflows/build_drift_api.yaml"
 
 
 jobs:
@@ -37,5 +37,5 @@ jobs:
           gcloud builds submit \
             . \
             --config \
-            cloudbuild_containers.yaml \
+            cloudbuild_drift_api.yaml \
             --async
