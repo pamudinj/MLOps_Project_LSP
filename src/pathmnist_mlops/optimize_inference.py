@@ -23,11 +23,10 @@ import io
 import logging
 import time
 from pathlib import Path
+from typing import TypedDict, cast
 
 import torch
 import typer
-from typing import cast
-from typing import TypedDict
 from torch import nn
 from torch.nn.utils import prune
 

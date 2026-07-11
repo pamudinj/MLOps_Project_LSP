@@ -2,18 +2,18 @@
 
 import logging
 import os
+import random
 from pathlib import Path
 
 import numpy as np
 import pandas as pd  # type: ignore
+import torch
 from evidently.legacy.metric_preset import DataDriftPreset  # type: ignore
 from evidently.legacy.report import Report  # type: ignore
 from google.cloud import storage  # type: ignore
 from medmnist import PathMNIST  # type: ignore
 from PIL import Image
-import torch
 from torchvision import transforms
-import random
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

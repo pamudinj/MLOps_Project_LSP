@@ -2,7 +2,6 @@ import io
 import os
 
 import torch
-import wandb
 from dotenv import load_dotenv
 from fastapi import (
     FastAPI,
@@ -12,6 +11,7 @@ from fastapi import (
 from PIL import Image
 from torchvision import transforms
 
+import wandb
 from pathmnist_mlops.train import (
     PathMNISTClassifier,
 )
