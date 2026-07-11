@@ -4,9 +4,9 @@ from google.cloud import aiplatform
 
 PROJECT_ID = "mlops-project-497719"
 
-REGION = "us-central1"
+REGION = "europe-west1"
 
-BUCKET = "gs://mlops_data_bucket-1"
+BUCKET = "gs://mlops-vertex-europe"
 
 
 aiplatform.init(

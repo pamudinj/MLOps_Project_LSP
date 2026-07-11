@@ -5,13 +5,13 @@ from pathlib import Path
 import hydra
 import pytorch_lightning as pl
 import torch
-import wandb
 from omegaconf import DictConfig
 from pytorch_lightning.callbacks import ModelCheckpoint
 from pytorch_lightning.loggers import WandbLogger
 from torch import nn
 from torch.optim import Adam
 
+import wandb
 from pathmnist_mlops.data import get_dataloaders
 from pathmnist_mlops.model import Model
 
