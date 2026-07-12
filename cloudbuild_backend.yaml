@@ -1,0 +1,23 @@
+steps:
+
+  - name: "gcr.io/cloud-builders/docker"
+
+    env:
+      - "DOCKER_BUILDKIT=1"
+
+    args:
+      [
+        "build",
+
+        "-f",
+        "dockerfiles/backend.dockerfile",
+
+        "-t",
+        "europe-west1-docker.pkg.dev/mlops-project-497719/mlops-container-registry/pathmnist-backend:latest",
+
+        ".",
+      ]
+
+images:
+
+  - "europe-west1-docker.pkg.dev/mlops-project-497719/mlops-container-registry/pathmnist-backend:latest"
