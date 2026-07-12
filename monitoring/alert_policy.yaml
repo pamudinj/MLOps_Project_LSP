@@ -6,9 +6,9 @@ conditions:
       filter: 'metric.type="logging.googleapis.com/user/prediction_confidence" AND resource.type="cloud_run_revision"'
       comparison: COMPARISON_LT
       thresholdValue: 0.6
-      duration: 5s
+      duration: 60s
       aggregations:
-        - alignmentPeriod: 5s
+        - alignmentPeriod: 60s
           perSeriesAligner: ALIGN_PERCENTILE_50
 notificationChannels:
   - "projects/mlops-project-497719/notificationChannels/6093809043285848103"
