@@ -2,9 +2,7 @@ from pathlib import Path
 
 import torch
 
-from pathmnist_mlops.train import (
-    PathMNISTClassifier,
-)
+from pathmnist_mlops.evaluate import load_model_from_wandb
 
 
 def export_onnx() -> None:
@@ -13,12 +11,7 @@ def export_onnx() -> None:
     to ONNX format.
     """
 
-    checkpoint_path = "models/pathmnist_cnn-epoch=14-val_acc=0.8864.ckpt"
-
-    model = PathMNISTClassifier.load_from_checkpoint(
-        checkpoint_path,
-        map_location="cpu",
-    )
+    model = load_model_from_wandb(device=torch.device("cpu"))
 
     model.eval()
 
@@ -29,7 +22,7 @@ def export_onnx() -> None:
         28,
     )
 
-    Path("models").mkdir(exist_ok=True)
+    Path("models").mkdir(parents=True, exist_ok=True)
 
     torch.onnx.export(
         model,
