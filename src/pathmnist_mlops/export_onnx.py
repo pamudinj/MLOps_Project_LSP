@@ -11,7 +11,6 @@ def export_onnx() -> None:
     to ONNX format.
     """
 
-
     model = load_model_from_wandb(device=torch.device("cpu"))
 
     model.eval()
