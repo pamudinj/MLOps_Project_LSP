@@ -6,7 +6,7 @@ import hydra
 import pytorch_lightning as pl
 import torch
 from omegaconf import DictConfig
-from pytorch_lightning.callbacks import ModelCheckpoint
+from pytorch_lightning.callbacks import EarlyStopping, ModelCheckpoint
 from pytorch_lightning.loggers import WandbLogger
 from torch import nn
 from torch.optim import Adam
@@ -22,7 +22,7 @@ logger = logging.getLogger(__name__)
 class PathMNISTClassifier(pl.LightningModule):
     """PyTorch Lightning module for PathMNIST classification."""
 
-    def __init__(self, lr: float = 1e-3):
+    def __init__(self, lr: float = 1e-3, weight_decay: float = 1e-4):
         super().__init__()
         self.save_hyperparameters()
         self.model = Model()
@@ -75,7 +75,11 @@ class PathMNISTClassifier(pl.LightningModule):
         )
 
     def configure_optimizers(self):
-        return Adam(self.parameters(), lr=self.hparams.lr)
+        return Adam(
+            self.parameters(),
+            lr=self.hparams.lr,
+            weight_decay=self.hparams.weight_decay,
+        )
 
 
 CONFIG_PATH = os.getenv(
@@ -102,9 +106,18 @@ def train(cfg: DictConfig) -> None:
 
     train_loader, val_loader, _ = get_dataloaders(cfg.training.batch_size)
 
-    model = PathMNISTClassifier(cfg.training.learning_rate)
+    model = PathMNISTClassifier(
+        lr=cfg.training.learning_rate,
+        weight_decay=cfg.training.weight_decay,
+    )
 
     Path("models").mkdir(parents=True, exist_ok=True)
+
+    logger.info("Starting training...")
+    wandb_logger = WandbLogger(
+        project="pathmnist-mlops",
+        entity="pamudinj-ludwig-maximilian-university-of-munich",
+    )
 
     logger.info("Configuring checkpoint...")
 
@@ -116,15 +129,15 @@ def train(cfg: DictConfig) -> None:
         save_top_k=1,
     )
 
-    logger.info("Starting training...")
-    wandb_logger = WandbLogger(
-        project="pathmnist-mlops",
-        entity="pamudinj-ludwig-maximilian-university-of-munich",
+    early_stopping = EarlyStopping(
+        monitor="val_acc",
+        mode="max",
+        patience=cfg.training.early_stopping_patience,
     )
 
     trainer = pl.Trainer(
         max_epochs=cfg.training.epochs,
-        callbacks=[checkpoint_callback],
+        callbacks=[checkpoint_callback, early_stopping],
         logger=wandb_logger,
         log_every_n_steps=cfg.training.log_every_n_steps,
         accelerator="auto",

@@ -1,4 +1,4 @@
-name: Unit Tests & Build Container
+name: Build Training Container
 
 on:
 
