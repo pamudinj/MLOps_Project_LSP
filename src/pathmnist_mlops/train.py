@@ -85,7 +85,7 @@ class PathMNISTClassifier(pl.LightningModule):
 
 CONFIG_PATH = os.getenv(
     "HYDRA_CONFIG_PATH",
-    "../../configs",
+    os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "configs"),
 )
 
 
@@ -151,7 +151,7 @@ def train(cfg: DictConfig) -> None:
         log_every_n_steps=cfg.training.log_every_n_steps,
         accelerator="auto",
         devices="auto",
-        strategy="auto",
+        strategy="ddp", # set to "auto" when training via CL command "train"
         profiler=profiler,
     )
 
