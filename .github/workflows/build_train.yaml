@@ -10,6 +10,7 @@ on:
       - "dockerfiles/train.dockerfile"
       - "cloudbuild_train.yaml"
       - ".github/workflows/build_train.yaml"
+      - "src/pathmnist_mlops/train.py"
 
 
 jobs:

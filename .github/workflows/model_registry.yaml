@@ -9,6 +9,9 @@ on:
     paths:
       - "src/pathmnist_mlops/model.py"
       - "src/pathmnist_mlops/train.py"
+      - "src/pathmnist_mlops/evaluate.py"
+
+  workflow_dispatch:
 
 
 jobs:
@@ -49,8 +52,6 @@ jobs:
           WANDB_PROJECT:
             ${{ secrets.WANDB_PROJECT }}
 
-          MODEL_NAME:
-            "pathmnist-model:latest"
 
         run: |
           python -m \
