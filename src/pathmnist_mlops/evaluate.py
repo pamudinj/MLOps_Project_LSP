@@ -31,15 +31,49 @@ def load_model_from_wandb(
         },
     )
 
-    artifact = api.artifact(os.getenv("MODEL_NAME"))
+    entity = os.getenv("WANDB_ENTITY")
+    project = os.getenv("WANDB_PROJECT")
 
-    artifact_dir = artifact.download(root="artifacts")
+    # Find the run with the highest validation accuracy
+    best_run = None
+    best_acc = -1.0
 
-    checkpoint_path = list(Path(artifact_dir).glob("*.ckpt"))[0]
+    for run in api.runs(f"{entity}/{project}"):
+        val_acc = run.summary.get("val_acc")
+
+        if val_acc is None:
+            continue
+
+        if val_acc > best_acc:
+            best_acc = val_acc
+            best_run = run
+
+    if best_run is None:
+        raise RuntimeError("No run with 'val_acc' found in W&B.")
+
+    print(f"Loading best model from run '{best_run.name}' (val_acc={best_acc:.4f})")
+
+    # Find the model artifact logged by this run
+    model_artifact = None
+
+    for artifact in best_run.logged_artifacts():
+        if artifact.type == "model":
+            model_artifact = artifact
+            break
+
+    if model_artifact is None:
+        raise RuntimeError("No model artifact found for the best run.")
+
+    artifact_dir = model_artifact.download(root="artifacts")
+
+    checkpoint_path = next(Path(artifact_dir).glob("*.ckpt"))
 
     model = PathMNISTClassifier.load_from_checkpoint(checkpoint_path).to(device)
-
     model.eval()
+
+    print(f"Validation Accuracy: {best_acc:.4f}")
+    print(f"Artifact: {model_artifact.name}")
+    print(f"Checkpoint: {checkpoint_path}")
 
     return model
 

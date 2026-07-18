@@ -196,3 +196,5 @@ src/pathmnist_mlops/wandb/
 src/pathmnist_mlops/profile_output.txt
 tests/sample_images/test_image.jpg
 'nmonitoring/*.csv
+
+profiler_logs/*.json
