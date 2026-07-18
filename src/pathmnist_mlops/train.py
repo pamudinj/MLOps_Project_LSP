@@ -5,7 +5,7 @@ from pathlib import Path
 import hydra
 import pytorch_lightning as pl
 import torch
-from omegaconf import DictConfig
+from omegaconf import DictConfig, OmegaConf
 from pytorch_lightning.callbacks import EarlyStopping, ModelCheckpoint
 from pytorch_lightning.loggers import WandbLogger
 from pytorch_lightning.profilers import PyTorchProfiler
@@ -118,6 +118,11 @@ def train(cfg: DictConfig) -> None:
     wandb_logger = WandbLogger(
         project="pathmnist-mlops",
         entity="pamudinj-ludwig-maximilian-university-of-munich",
+    )
+
+    wandb_logger.experiment.config.update(
+        OmegaConf.to_container(cfg, resolve=True),
+        allow_val_change=True,
     )
 
     logger.info("Configuring checkpoint...")
