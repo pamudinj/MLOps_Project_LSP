@@ -1,6 +1,7 @@
 import logging
 import os
 from pathlib import Path
+from pytorch_lightning.profilers import PyTorchProfiler
 
 import hydra
 import pytorch_lightning as pl
@@ -84,7 +85,7 @@ class PathMNISTClassifier(pl.LightningModule):
 
 CONFIG_PATH = os.getenv(
     "HYDRA_CONFIG_PATH",
-    "../../configs",
+    os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "configs"),
 )
 
 
@@ -134,6 +135,14 @@ def train(cfg: DictConfig) -> None:
         mode="max",
         patience=cfg.training.early_stopping_patience,
     )
+    
+    profiler = PyTorchProfiler(
+        dirpath="profiler_logs",
+        filename="pathmnist_profile",
+        export_to_chrome=True,       # writes a trace.json you can open in chrome://tracing
+        profile_memory=True,
+        row_limit=20,
+    )
 
     trainer = pl.Trainer(
         max_epochs=cfg.training.epochs,
@@ -142,7 +151,8 @@ def train(cfg: DictConfig) -> None:
         log_every_n_steps=cfg.training.log_every_n_steps,
         accelerator="auto",
         devices="auto",
-        strategy="ddp",
+        strategy="ddp", # set to "auto" when training via CL command "train"
+        profiler=profiler,
     )
 
     trainer.fit(model, train_loader, val_loader)
