@@ -298,8 +298,8 @@ Yes. We integrated Data Version Control (DVC) into our project to version the or
 >
 > Answer:
 
-We organized our continuous integration into multiple GitHub Actions workflows, each responsible for a different aspect of the project. Separate workflows were created for unit testing, API testing, code linting, DVC integration, model registry evaluation, and container building. We also used path-based triggers so that workflows only run when relevant files are modified, reducing unnecessary CI execution.
-The code quality workflow checks formatting using Ruff and performs static type checking with mypy. The unit testing workflow executes the complete test suite, generates a coverage report, and runs on both Ubuntu and Windows using Python 3.12 to verify cross-platform compatibility. The API workflow validates the FastAPI endpoints, while the DVC workflow authenticates with Google Cloud, retrieves the tracked dataset, and runs dataset statistics. The model registry workflow evaluates the best model stored in Weights & Biases, and a separate workflow submits a Google Cloud Build job to build the training container. We also enabled pip dependency caching in several workflows to reduce installation time. Overall, our CI pipeline automatically validates code quality, testing, data management, model evaluation, and deployment, helping maintain a reliable and reproducible MLOps workflow.
+We organized our continuous integration into multiple GitHub Actions workflows, each responsible for a different aspect of the project. Separate workflows were created for unit testing, API testing, code linting, DVC integration, model registry evaluation, and container building. Most workflows are triggered by **pull requests to the main branch`, while the container build workflow is triggered by pushes affecting deployment-related files. We also used path-based triggers so that workflows only run when relevant files are modified, reducing unnecessary CI execution.
+The code quality workflow checks formatting using Ruff and performs static type checking with mypy. The unit testing workflow executes the complete test suite, generates a coverage report, and runs on both Ubuntu and Windows using Python 3.12 to verify cross-platform compatibility. The API workflow validates the FastAPI endpoints, while the DVC workflow authenticates with Google Cloud, retrieves the tracked dataset, and runs dataset statistics. The model registry workflow evaluates the latest model stored in Weights & Biases, and a separate workflow submits a Google Cloud Build job to build the training container. We also enabled pip dependency caching in several workflows to reduce installation time. Overall, our CI pipeline automatically validates code quality, testing, data management, model evaluation, and deployment, helping maintain a reliable and reproducible MLOps workflow.
 Workflows: https://github.com/pamudinj/MLOps_Project_LSP/tree/main/.github/workflows
 
 ## Running code and tracking experiments
@@ -355,14 +355,17 @@ We used several mechanisms to ensure that our experiments were reproducible and 
 >
 > Answer:
 
-During model development, we used Weights & Biases (W&B) to track and compare the results of multiple training experiments. Figure 1 shows several runs from a hyperparameter sweep, where different learning rates, batch sizes, and numbers of epochs were evaluated. W&B automatically logged the training configuration together with the resulting performance metrics, making it easy to compare experiments and identify the best-performing model.
+During model development, we used Weights & Biases (W&B) to track and compare the results of multiple training experiments. Figure 1 shows several runs from hyperparameter sweeps, where different learning rates, batch sizes, and numbers of epochs were evaluated. W&B automatically logged the training configuration together with the resulting performance metrics, making it easy to compare experiments and identify the best-performing model.
 
 The main metrics we monitored were training loss, validation loss, training accuracy, and validation accuracy. Training and validation loss measure how well the model minimizes the classification error during optimization, while the corresponding accuracy metrics indicate how well the model predicts the correct tissue class. Monitoring both training and validation metrics is important because it helps identify underfitting and overfitting. For example, decreasing training loss together with increasing validation accuracy indicates that the model is learning meaningful features and generalizing well to unseen data. We also tracked the current epoch and training progress to monitor convergence throughout the optimization process.
 
-As shown in Figure 1, the run golden-sweep-2 consistently achieved lower validation loss and higher validation accuracy than royal-sweep-1, and was therefore selected as the best-performing configuration. W&B also stored the corresponding hyperparameters and model artifact, allowing the experiment to be reproduced and compared with future experiments.
+As shown in Figure 3, the run treasured-donkey-19  the highest validation accuracy and was therefore selected as the best-performing configuration. W&B also stored the corresponding hyperparameters and model artifact, allowing the experiment to be reproduced and compared with future experiments.
 
-`![W&B dashboard](reports/figures/wandb_training.png)`
-Figure 1. W&B dashboard showing the comparison of two hyperparameter sweep runs, including training loss, validation loss, training accuracy, validation accuracy, and training progress.
+![Figure 1](reports/figures/wandb_training.png)
+
+![Figure 2](reports/figures/wandb_models.png)
+
+![Figure 3](reports/figures/wandb_best.png)
 
 ### Question 15
 
@@ -462,11 +465,11 @@ We created a Google Compute Engine virtual machine as part of exploring the GCP 
 >
 > Answer:
 
-Figure 2 shows the Google Cloud Storage buckets used in our project. The mlops_data_bucket-1 bucket was configured as the remote storage for DVC, allowing dataset files to be versioned without storing them directly in the Git repository. The mlops-project-497719_cloudbuild bucket was automatically created and used by Google Cloud Build to store temporary build artifacts during container builds. The mlops-vertex-europe bucket was created as the staging bucket for Vertex AI custom training jobs, where Vertex AI stores intermediate outputs and training artifacts.
-`![Figure 2](reports/figures/Cloud_Storage.png)`
+Figure 4 shows the Google Cloud Storage buckets used in our project. The mlops_data_bucket-1 bucket was configured as the remote storage for DVC, allowing dataset files to be versioned without storing them directly in the Git repository. The mlops-project-497719_cloudbuild bucket was automatically created and used by Google Cloud Build to store temporary build artifacts during container builds. The mlops-vertex-europe bucket was created as the staging bucket for Vertex AI custom training jobs, where Vertex AI stores intermediate outputs and training artifacts.
+![Figure 4](reports/figures/Cloud_Storage.png)
 
-Figure 3 shows the contents of the DVC storage bucket, illustrating the dataset objects tracked remotely by DVC. Storing the data in Cloud Storage allowed all team members to access the same dataset version and improved the reproducibility of our experiments while keeping the Git repository lightweight.
-`![Figure 3](reports/figures/DVC_storage_bucket.png)`
+Figure 5 shows the contents of the DVC storage bucket, illustrating the dataset objects tracked remotely by DVC. Storing the data in Cloud Storage allowed all team members to access the same dataset version and improved the reproducibility of our experiments while keeping the Git repository lightweight.
+![Figure 5](reports/figures/DVC_storage_bucket.png)
 
 ### Question 20
 
@@ -475,13 +478,11 @@ Figure 3 shows the contents of the DVC storage bucket, illustrating the dataset 
 >
 > Answer:
 
-The screenshots below show the Google Artifact Registry used in our project to store Docker container images before deployment. We created two repositories, with mlops-container-registry serving as the primary repository for our application images. As shown in Figure 5, the registry contains separate Docker images for the different components of our MLOps pipeline, including the training container `pathmnist-train`, backend `pathmnist-backend`, frontend `pathmnist-frontend`, inference API `pathmnist-api`, and drift detection service `pathmnist-drift`. These images were built using Google Cloud Build and stored in Artifact Registry before being deployed to Google Cloud Run. Storing container images in Artifact Registry provides centralized version management, making it easy to deploy, update, and maintain consistent container images.
+The screenshots below show the Google Artifact Registry used in our project to store Docker container images before deployment. We created two repositories, with mlops-container-registry serving as the primary repository for our application images. As shown in Figure 6, the registry contains separate Docker images for the different components of our MLOps pipeline, including the training container `pathmnist-train`, backend `pathmnist-backend`, frontend `pathmnist-frontend`, inference API `pathmnist-api`, and drift detection service `pathmnist-drift`. These images were built using Google Cloud Build and stored in Artifact Registry before being deployed to Google Cloud Run. Storing container images in Artifact Registry provides centralized version management, making it easy to deploy, update, and maintain consistent container images.
 
-`![Figure 4](reports/figures/Artifact_Registry.png)`
-Figure 4. Google Artifact Registry repositories used in the project.
+![Figure 6](reports/figures/Artifact_Registry.png)
 
-`![Figure 5](reports/figures/Docker_images.png)`
-Figure 5. Docker images stored in the mlops-container-registry repository, including training, backend, frontend, inference API, and drift detection services.
+![Figure 7](reports/figures/Docker_images.png)
 
 ### Question 21
 
@@ -492,8 +493,7 @@ Figure 5. Docker images stored in the mlops-container-registry repository, inclu
 
 The screenshot below shows the Google Cloud Build history for our project. Cloud Build was used to automatically build Docker images from our repository before deployment. The build history provides a record of all build attempts, including their status, creation time, duration, and build identifier. During development, several builds initially failed while we resolved dependency and configuration issues. After these were fixed, subsequent builds completed successfully and produced the Docker images that were stored in Artifact Registry and later deployed to Google Cloud Run. Maintaining the build history allowed us to verify that changes to the application could be built successfully and helped diagnose build failures by providing detailed logs and execution information.
 
-`![Figure 6](reports/figures/Cloud_Build.png)`
-Figure 6. Google Cloud Build history showing successful and failed container builds throughout the development of the project.
+![Figure 8](reports/figures/Cloud_Build.png)
 
 ### Question 22
 
@@ -648,8 +648,8 @@ We also implemented a separate data drift detection service as an independent Fa
 >
 > Answer:
 
-`![Figure 7](reports/figures/architecture.png)`
-Figure 7 illustrates the end-to-end architecture of our MLOps pipeline. Development begins in the local environment, where the PathMNIST model is implemented, trained, and evaluated using PyTorch. The source code, configuration files, and Docker definitions are managed using Git and hosted in a GitHub repository.
+![Figure 9](reports/figures/architecture.png)
+Figure 9 illustrates the end-to-end architecture of our MLOps pipeline. Development begins in the local environment, where the PathMNIST model is implemented, trained, and evaluated using PyTorch. The source code, configuration files, and Docker definitions are managed using Git and hosted in a GitHub repository.
 
 When code is pushed to GitHub, GitHub Actions automatically execute the project's CI/CD workflows. These workflows perform code quality checks, execute unit tests, build Docker images, and automate other project tasks. For cloud training, Docker images are pushed to Google Artifact Registry and used by Vertex AI to execute training jobs and hyperparameter sweeps. The resulting trained model is exported to the ONNX format for efficient inference.
 
