@@ -1,7 +1,6 @@
 import logging
 import os
 from pathlib import Path
-from pytorch_lightning.profilers import PyTorchProfiler
 
 import hydra
 import pytorch_lightning as pl
@@ -9,6 +8,7 @@ import torch
 from omegaconf import DictConfig
 from pytorch_lightning.callbacks import EarlyStopping, ModelCheckpoint
 from pytorch_lightning.loggers import WandbLogger
+from pytorch_lightning.profilers import PyTorchProfiler
 from torch import nn
 from torch.optim import Adam
 
@@ -135,11 +135,11 @@ def train(cfg: DictConfig) -> None:
         mode="max",
         patience=cfg.training.early_stopping_patience,
     )
-    
+
     profiler = PyTorchProfiler(
         dirpath="profiler_logs",
         filename="pathmnist_profile",
-        export_to_chrome=True,       # writes a trace.json you can open in chrome://tracing
+        export_to_chrome=True,  # writes a trace.json you can open in chrome://tracing
         profile_memory=True,
         row_limit=20,
     )
@@ -151,7 +151,7 @@ def train(cfg: DictConfig) -> None:
         log_every_n_steps=cfg.training.log_every_n_steps,
         accelerator="auto",
         devices="auto",
-        strategy="ddp", # set to "auto" when training via CL command "train"
+        strategy="ddp",  # set to "auto" when training via CL command "train"
         profiler=profiler,
     )
 
