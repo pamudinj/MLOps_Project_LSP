@@ -24,4 +24,4 @@ nav:
   - Getting Started: getting_started.md
   - Training Pipeline: training.md
   - Deployment: deployment.md
-  - API Reference: api.md
+  - Code Documentation: api.md
