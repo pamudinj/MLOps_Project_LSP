@@ -52,69 +52,69 @@ will check the repositories and the code to verify your answers.
 
 ### Week 1
 
-* [ ] Create a git repository (M5)
-* [ ] Make sure that all team members have write access to the GitHub repository (M5)
-* [ ] Create a dedicated environment for you project to keep track of your packages (M2)
-* [ ] Create the initial file structure using cookiecutter with an appropriate template (M6)
-* [ ] Fill out the `data.py` file such that it downloads whatever data you need and preprocesses it (if necessary) (M6)
-* [ ] Add a model to `model.py` and a training procedure to `train.py` and get that running (M6)
-* [ ] Remember to either fill out the `requirements.txt`/`requirements_dev.txt` files or keeping your
+* [X] Create a git repository (M5)
+* [X] Make sure that all team members have write access to the GitHub repository (M5)
+* [X] Create a dedicated environment for you project to keep track of your packages (M2)
+* [X] Create the initial file structure using cookiecutter with an appropriate template (M6)
+* [X] Fill out the `data.py` file such that it downloads whatever data you need and preprocesses it (if necessary) (M6)
+* [X] Add a model to `model.py` and a training procedure to `train.py` and get that running (M6)
+* [X] Remember to either fill out the `requirements.txt`/`requirements_dev.txt` files or keeping your
     `pyproject.toml`/`uv.lock` up-to-date with whatever dependencies that you are using (M2+M6)
-* [ ] Remember to comply with good coding practices (`pep8`) while doing the project (M7)
-* [ ] Do a bit of code typing and remember to document essential parts of your code (M7)
-* [ ] Setup version control for your data or part of your data (M8)
-* [ ] Add command line interfaces and project commands to your code where it makes sense (M9)
-* [ ] Construct one or multiple docker files for your code (M10)
-* [ ] Build the docker files locally and make sure they work as intended (M10)
-* [ ] Write one or multiple configurations files for your experiments (M11)
-* [ ] Used Hydra to load the configurations and manage your hyperparameters (M11)
-* [ ] Use profiling to optimize your code (M12)
-* [ ] Use logging to log important events in your code (M14)
-* [ ] Use Weights & Biases to log training progress and other important metrics/artifacts in your code (M14)
-* [ ] Consider running a hyperparameter optimization sweep (M14)
-* [ ] Use PyTorch-lightning (if applicable) to reduce the amount of boilerplate in your code (M15)
+* [X] Remember to comply with good coding practices (`pep8`) while doing the project (M7)
+* [X] Do a bit of code typing and remember to document essential parts of your code (M7)
+* [X] Setup version control for your data or part of your data (M8)
+* [X] Add command line interfaces and project commands to your code where it makes sense (M9)
+* [X] Construct one or multiple docker files for your code (M10)
+* [X] Build the docker files locally and make sure they work as intended (M10)
+* [X] Write one or multiple configurations files for your experiments (M11)
+* [X] Used Hydra to load the configurations and manage your hyperparameters (M11)
+* [X] Use profiling to optimize your code (M12)
+* [X] Use logging to log important events in your code (M14)
+* [X] Use Weights & Biases to log training progress and other important metrics/artifacts in your code (M14)
+* [X] Consider running a hyperparameter optimization sweep (M14)
+* [X] Use PyTorch-lightning (if applicable) to reduce the amount of boilerplate in your code (M15)
 
 ### Week 2
 
-* [ ] Write unit tests related to the data part of your code (M16)
-* [ ] Write unit tests related to model construction and or model training (M16)
-* [ ] Calculate the code coverage (M16)
-* [ ] Get some continuous integration running on the GitHub repository (M17)
-* [ ] Add caching and multi-os/python/pytorch testing to your continuous integration (M17)
-* [ ] Add a linting step to your continuous integration (M17)
-* [ ] Add pre-commit hooks to your version control setup (M18)
-* [ ] Add a continues workflow that triggers when data changes (M19)
-* [ ] Add a continues workflow that triggers when changes to the model registry is made (M19)
-* [ ] Create a data storage in GCP Bucket for your data and link this with your data version control setup (M21)
-* [ ] Create a trigger workflow for automatically building your docker images (M21)
-* [ ] Get your model training in GCP using either the Engine or Vertex AI (M21)
-* [ ] Create a FastAPI application that can do inference using your model (M22)
-* [ ] Deploy your model in GCP using either Functions or Run as the backend (M23)
-* [ ] Write API tests for your application and setup continues integration for these (M24)
-* [ ] Load test your application (M24)
-* [ ] Create a more specialized ML-deployment API using either ONNX or BentoML, or both (M25)
-* [ ] Create a frontend for your API (M26)
+* [X] Write unit tests related to the data part of your code (M16)
+* [X] Write unit tests related to model construction and or model training (M16)
+* [X] Calculate the code coverage (M16)
+* [X] Get some continuous integration running on the GitHub repository (M17)
+* [X] Add caching and multi-os/python/pytorch testing to your continuous integration (M17)
+* [X] Add a linting step to your continuous integration (M17)
+* [X] Add pre-commit hooks to your version control setup (M18)
+* [X] Add a continues workflow that triggers when data changes (M19)
+* [X] Add a continues workflow that triggers when changes to the model registry is made (M19)
+* [X] Create a data storage in GCP Bucket for your data and link this with your data version control setup (M21)
+* [X] Create a trigger workflow for automatically building your docker images (M21)
+* [X] Get your model training in GCP using either the Engine or Vertex AI (M21)
+* [X] Create a FastAPI application that can do inference using your model (M22)
+* [X] Deploy your model in GCP using either Functions or Run as the backend (M23)
+* [X] Write API tests for your application and setup continues integration for these (M24)
+* [X] Load test your application (M24)
+* [X] Create a more specialized ML-deployment API using either ONNX or BentoML, or both (M25)
+* [X] Create a frontend for your API (M26)
 
 ### Week 3
 
-* [ ] Check how robust your model is towards data drifting (M27)
-* [ ] Setup collection of input-output data from your deployed application (M27)
-* [ ] Deploy to the cloud a drift detection API (M27)
-* [ ] Instrument your API with a couple of system metrics (M28)
-* [ ] Setup cloud monitoring of your instrumented application (M28)
-* [ ] Create one or more alert systems in GCP to alert you if your app is not behaving correctly (M28)
-* [ ] If applicable, optimize the performance of your data loading using distributed data loading (M29)
-* [ ] If applicable, optimize the performance of your training pipeline by using distributed training (M30)
-* [ ] Play around with quantization, compilation and pruning for you trained models to increase inference speed (M31)
+* [X] Check how robust your model is towards data drifting (M27)
+* [X] Setup collection of input-output data from your deployed application (M27)
+* [X] Deploy to the cloud a drift detection API (M27)
+* [X] Instrument your API with a couple of system metrics (M28)
+* [X] Setup cloud monitoring of your instrumented application (M28)
+* [X] Create one or more alert systems in GCP to alert you if your app is not behaving correctly (M28)
+* [X] If applicable, optimize the performance of your data loading using distributed data loading (M29)
+* [X] If applicable, optimize the performance of your training pipeline by using distributed training (M30)
+* [X] Play around with quantization, compilation and pruning for you trained models to increase inference speed (M31)
 
 ### Extra
 
 * [ ] Write some documentation for your application (M32)
 * [ ] Publish the documentation to GitHub Pages (M32)
 * [ ] Revisit your initial project description. Did the project turn out as you wanted?
-* [ ] Create an architectural diagram over your MLOps pipeline
+* [X] Create an architectural diagram over your MLOps pipeline
 * [ ] Make sure all group members have an understanding about all parts of the project
-* [ ] Uploaded all your code to GitHub
+* [X] Uploaded all your code to GitHub
 
 ## Group information
 
@@ -177,8 +177,15 @@ cd <project_directory>
 python -m venv .venv
 source .venv/bin/activate      # Linux/macOS
 .venv\Scripts\activate       # Windows
+pip install -e .
 
 pip install -r requirements.txt
+pip install -r requirements_frontend.txt
+pip install -r requirements_backend.txt
+pip install -r requirements_dev.txt
+pip install -e .
+
+dvc pull # download data
 ```
 
 ### Question 5
@@ -195,7 +202,7 @@ pip install -r requirements.txt
 >
 > Answer:
 
-We initialized the project using the DTU MLOps cookiecutter template and preserved its overall directory structure. The main development took place in the src/pathmnist_mlops package, where we implemented modules for data loading `data.py`, model training `train.py`, evaluation `evaluate.py`, FastAPI inference `api.py`, ONNX inference `api_onnx.py`, ONNX model export `export_onnx.py`, data drift detection `data_drift.py and drift_api.py`, dataset statistics, and inference optimization. The tests directory was expanded with unit, API, and performance tests, while the dockerfiles directory was extended with Dockerfiles for the backend, frontend, and drift detection service. We also added a monitoring directory containing monitoring and alert configuration files for Google Cloud Monitoring. In addition, we customized the project by integrating DVC for data versioning, GitHub Actions for continuous integration, Weights & Biases for experiment tracking, and Google Cloud Run for deployment, while keeping the original cookiecutter organization intact. At this stage of the project, we did not make modifications to some of the template folders, including docs, notebooks, models, and .devcontainer.
+We initialized the project using the DTU MLOps cookiecutter template and preserved its overall directory structure. The main development took place in the src/pathmnist_mlops package, where we implemented modules for data loading `data.py`, model training `train.py`, evaluation `evaluate.py`, FastAPI inference `api.py`, ONNX inference `api_onnx.py`, ONNX model export `export_onnx.py`, data drift detection `data_drift.py and drift_api.py`, dataset statistics, and inference optimization. The tests directory was expanded with unit, API, and performance tests, while the dockerfiles directory was extended with Dockerfiles for the backend, frontend, and drift detection service. We also added a monitoring directory containing monitoring and alert configuration files for Google Cloud Monitoring. In addition, we customized the project by integrating DVC for data versioning, GitHub Actions for continuous integration, Weights & Biases for experiment tracking, and Google Cloud Run for deployment, while keeping the original cookiecutter organization intact. At this stage of the project, we did not make modifications to some of the template folders, including notebooks, and .devcontainer. We added models to the models folder locally, but did not push those to the repo.
 
 ### Question 6
 
@@ -210,7 +217,7 @@ We initialized the project using the DTU MLOps cookiecutter template and preserv
 >
 > Answer:
 
-Yes. We implemented several code quality practices throughout the project. Ruff was used for both linting and code formatting to ensure a consistent coding style and detect common programming issues. mypy was used for static type checking, helping identify type-related errors before runtime. We also configured pre-commit hooks to automatically run quality checks before each commit, and GitHub Actions to execute these checks as part of the continuous integration pipeline. In addition, we documented our modules and functions using Python docstrings and included type hints throughout the codebase to improve readability and maintainability. These practices are particularly important in larger projects involving multiple developers. Consistent formatting makes the code easier to read, static typing helps detect bugs early and clarifies function interfaces, and documentation allows new contributors to understand the code more quickly. Automated quality checks ensure that coding standards are applied consistently across the project, reducing integration issues and making the codebase more reliable and maintainable over time.
+Yes. We implemented several code quality practices throughout the project. Ruff was used for both linting and code formatting to ensure a consistent coding style and detect common programming issues. mypy was used for static type checking, helping identify type-related errors before runtime. We also configured pre-commit hooks to automatically run quality checks before each commit, and GitHub Actions to execute these checks as part of the continuous integration pipeline. In addition, we documented our modules and functions using Python docstrings and included type hints throughout the codebase to improve readability and maintainability. Automated quality checks ensure that coding standards are applied consistently across the project, reducing integration issues and making the codebase more reliable and maintainable over time.
 
 ## Version control
 
@@ -244,7 +251,7 @@ We implemented 21 automated tests and one performance test. The automated tests 
 >
 > Answer:
 
-The overall code coverage of our project is 73%. The highest coverage was achieved for the core components, with 80% coverage for both the data loading and model modules. The FastAPI inference API achieved 75% coverage, the training pipeline 73%, and the ONNX inference API 66%. The remaining uncovered code is primarily related to application startup, configuration, external service integration, and training orchestration, which are difficult to validate using isolated unit tests and are more appropriately tested through integration or end-to-end testing. Even if our code coverage were close to 100%, we would not assume the software to be error free. Code coverage only measures which lines of code were executed during testing. It does not guarantee that the tests verify correct behavior or cover all edge cases. Therefore, meaningful test design, integration testing, static analysis, and code reviews remain essential for ensuring software quality.
+The overall code coverage of our project is 72%. The highest coverage was achieved for the core components, with 80% coverage for both the data loading and model modules. The FastAPI inference API achieved 75% coverage, the training pipeline 71%, and the ONNX inference API 66%. The remaining uncovered code is primarily related to application startup, configuration, external service integration, and training orchestration, which are difficult to validate using isolated unit tests and are more appropriately tested through integration or end-to-end testing. Even if our code coverage were close to 100%, we would not assume the software to be error free. Code coverage only measures which lines of code were executed during testing. It does not guarantee that the tests verify correct behavior or cover all edge cases. Therefore, meaningful test design, integration testing, static analysis, and code reviews remain essential for ensuring software quality.
 
 ### Question 9
 
@@ -274,7 +281,7 @@ Yes. We followed a branch-based development workflow throughout the project. Our
 >
 > Answer:
 
-Yes. We integrated Data Version Control (DVC) into our project to version the PathMNIST dataset and configure remote storage for managing data outside the Git repository. Since the dataset remained unchanged throughout the project, we did not create multiple dataset versions after the initial setup. However, using DVC demonstrated how large datasets can be tracked without storing them directly in Git and ensured that all team members could access the same data used for training and evaluation. The DVC metadata files were version controlled alongside the source code, helping maintain consistency between the codebase and the dataset. Although our project did not require frequent dataset updates, DVC provides an effective solution for larger projects where datasets evolve over time, allowing previous versions to be reproduced, shared, and restored while keeping the Git repository lightweight.
+Yes. We integrated Data Version Control (DVC) into our project to version the original PathMNIST dataset and also the drifted dataset, and configure remote storage for managing data outside the Git repository. Since the original dataset remained unchanged throughout the project, we did not create multiple dataset versions after the initial setup. However, using DVC demonstrated how large datasets can be tracked without storing them directly in Git and ensured that all team members could access the same data used for training and evaluation. The DVC metadata files were version controlled alongside the source code, helping maintain consistency between the codebase and the dataset. Although our project did not require any dataset update, DVC provides an effective solution for larger projects where datasets evolve over time, allowing previous versions to be reproduced, shared, and restored while keeping the Git repository lightweight.
 
 ### Question 11
 
@@ -312,7 +319,11 @@ Workflows: https://github.com/pamudinj/MLOps_Project_LSP/tree/main/.github/workf
 >
 > Answer:
 
---- question 12 fill here ---
+We configured our experiments using Hydra configuration files and Weights & Biases Sweeps. The default training parameters, such as learning rate, batch size, number of epochs, and logging frequency, were stored in configs/config.yaml, while configs/sweep.yaml defined the hyperparameter search space for W&B Sweeps. Experiments were executed using Hydra, for example:
+
+`python -m pathmnist_mlops.train training.learning_rate=0.001 training.batch_size=64 training.epochs=20`
+
+For hyperparameter optimization, we launched a W&B sweep using the configuration in configs/sweep.yaml.
 
 ### Question 13
 
@@ -327,7 +338,7 @@ Workflows: https://github.com/pamudinj/MLOps_Project_LSP/tree/main/.github/workf
 >
 > Answer:
 
---- question 13 fill here ---
+We used several mechanisms to ensure that our experiments were reproducible and that no important information was lost. Training parameters such as the random seed, learning rate, batch size, number of epochs, and logging frequency were stored in Hydra configuration files, ensuring that experiments were executed with well-defined settings. Weights & Biases (W&B) automatically logged the hyperparameters, training and validation metrics, and stored the best model as an artifact in the model registry, allowing experiments to be reproduced and compared later. The dataset was managed using DVC, ensuring that the same version of the training data could be retrieved when needed, while Git tracked changes to the source code. Finally, project dependencies were recorded in the `requirements.txt` files, allowing the same software environment to be recreated. Together, these tools ensured that an experiment could be reproduced by checking out the corresponding code version, retrieving the tracked dataset, installing the required dependencies, and running the training script with the same Hydra configuration.
 
 ### Question 14
 
@@ -344,7 +355,17 @@ Workflows: https://github.com/pamudinj/MLOps_Project_LSP/tree/main/.github/workf
 >
 > Answer:
 
---- question 14 fill here ---
+During model development, we used Weights & Biases (W&B) to track and compare the results of multiple training experiments. Figure 1 shows several runs from hyperparameter sweeps, where different learning rates, batch sizes, and numbers of epochs were evaluated. W&B automatically logged the training configuration together with the resulting performance metrics, making it easy to compare experiments and identify the best-performing model.
+
+The main metrics we monitored were training loss, validation loss, training accuracy, and validation accuracy. Training and validation loss measure how well the model minimizes the classification error during optimization, while the corresponding accuracy metrics indicate how well the model predicts the correct tissue class. Monitoring both training and validation metrics is important because it helps identify underfitting and overfitting. For example, decreasing training loss together with increasing validation accuracy indicates that the model is learning meaningful features and generalizing well to unseen data. We also tracked the current epoch and training progress to monitor convergence throughout the optimization process.
+
+As shown in Figure 3, the run treasured-donkey-19  the highest validation accuracy and was therefore selected as the best-performing configuration. W&B also stored the corresponding hyperparameters and model artifact, allowing the experiment to be reproduced and compared with future experiments.
+
+![Figure 1](figures/wandb_training.png)
+
+![Figure 2](figures/wandb_models.png)
+
+![Figure 3](figures/wandb_best.png)
 
 ### Question 15
 
@@ -359,7 +380,21 @@ Workflows: https://github.com/pamudinj/MLOps_Project_LSP/tree/main/.github/workf
 >
 > Answer:
 
---- question 15 fill here ---
+We used Docker to containerize the different components of our MLOps application, ensuring a consistent execution environment across local development and Google Cloud. We created separate Dockerfiles for the training pipeline `train.dockerfile`, FastAPI backend `backend.dockerfile`, model inference API `api.dockerfile`, Streamlit frontend `frontend.dockerfile`, and drift detection API `drift_api.dockerfile`. This separation allowed each service to be built and deployed independently according to its specific purpose. The containers were used for local testing as well as deployment to Google Cloud Run and Google Cloud Build. For example, the backend container can be built and executed using:
+
+```bash
+docker build -t pathmnist-backend:latest -f dockerfiles/backend.dockerfile .
+docker run -p 8000:8000 backend:latest
+```
+
+Similarly, the frontend can be started with:
+
+```bash
+docker build -t pathmnist-frontend:latest -f dockerfiles/frontend.dockerfile .
+docker run -p 8501:8501 frontend:latest
+```
+
+The Dockerfiles are available in the repository under the dockerfiles/ directory. For example: https://github.com/pamudinj/MLOps_Project_LSP/blob/main/dockerfiles/backend.dockerfile.
 
 ### Question 16
 
@@ -374,7 +409,12 @@ Workflows: https://github.com/pamudinj/MLOps_Project_LSP/tree/main/.github/workf
 >
 > Answer:
 
---- question 16 fill here ---
+During development, we used several debugging techniques to identify and resolve issues in our MLOps pipeline. Python logging was extensively used to trace the execution of data loading, training, evaluation, and deployment steps. We also relied on PyTorch Lightning's built-in logging and checkpointing to monitor training progress and verify that metrics such as training loss and validation accuracy behaved as expected. Weights & Biases (W&B) was particularly useful for visualizing experiment results, comparing runs, and identifying problems related to hyperparameter configurations. For cloud-based training, Vertex AI job logs helped diagnose execution failures and configuration issues. To evaluate performance, we profiled the training process using PyTorch Lightning's `PyTorchProfiler`, which generated execution traces and memory usage statistics. The profiler confirms that the training pipeline was functioning efficiently while highlighting the most computationally intensive operations. The computationally most expensive operation, according to the report, is the copying of tensors into the memory during runtime.
+For evaluating performance of python files, for example the data.py, one can run
+```bash
+python -m cProfile -o profiler_logs/data_profile.prof src/pathmnist_mlops/data.py
+```
+.
 
 ## Working in the cloud
 
@@ -391,7 +431,17 @@ Workflows: https://github.com/pamudinj/MLOps_Project_LSP/tree/main/.github/workf
 >
 > Answer:
 
---- question 17 fill here ---
+We used the following Google Cloud Platform services:
+
+- Cloud Run – deployed the FastAPI backend, Streamlit frontend, and drift detection API as serverless services.
+- Cloud Storage (GCS) – used as the remote storage for DVC to version and store the dataset.
+- Cloud Build – built Docker container images directly from the repository using a Cloud Build configuration.
+- Artifact Registry – stored the Docker container images before deployment to Cloud Run.
+- Vertex AI – configured to run model training jobs in the cloud.
+- Cloud Monitoring – collected application metrics and monitored the deployed services.
+- Cloud Alerting – created alert policies to notify us when application metrics exceeded predefined thresholds.
+
+Together, these services provided a complete cloud-based workflow for training, deployment, monitoring, and data management.
 
 ### Question 18
 
@@ -406,7 +456,7 @@ Workflows: https://github.com/pamudinj/MLOps_Project_LSP/tree/main/.github/workf
 >
 > Answer:
 
---- question 18 fill here ---
+We created a Google Compute Engine virtual machine as part of exploring the GCP infrastructure. The instance ran Ubuntu in the europe-west1-b zone and allowed us to become familiar with managing cloud virtual machines, including connecting to the instance and configuring the Google Cloud environment. However, it was not used for model training. Instead, our application was deployed using Cloud Run, while Cloud Build, Artifact Registry, and Vertex AI were used for building, managing, and executing the training workflow. We also launched a custom training job on Vertex AI using our Docker training container, which automatically provisioned the required compute resources without requiring manual VM management. This approach simplified training, ensured a consistent execution environment, and integrated naturally with the rest of our cloud-based MLOps pipeline.
 
 ### Question 19
 
@@ -415,7 +465,11 @@ Workflows: https://github.com/pamudinj/MLOps_Project_LSP/tree/main/.github/workf
 >
 > Answer:
 
---- question 19 fill here ---
+Figure 4 shows the Google Cloud Storage buckets used in our project. The mlops_data_bucket-1 bucket was configured as the remote storage for DVC, allowing dataset files to be versioned without storing them directly in the Git repository. The mlops-project-497719_cloudbuild bucket was automatically created and used by Google Cloud Build to store temporary build artifacts during container builds. The mlops-vertex-europe bucket was created as the staging bucket for Vertex AI custom training jobs, where Vertex AI stores intermediate outputs and training artifacts.
+![Figure 4](figures/Cloud_Storage.png)
+
+Figure 5 shows the contents of the DVC storage bucket, illustrating the dataset objects tracked remotely by DVC. Storing the data in Cloud Storage allowed all team members to access the same dataset version and improved the reproducibility of our experiments while keeping the Git repository lightweight.
+![Figure 5](figures/DVC_storage_bucket.png)
 
 ### Question 20
 
@@ -424,7 +478,11 @@ Workflows: https://github.com/pamudinj/MLOps_Project_LSP/tree/main/.github/workf
 >
 > Answer:
 
---- question 20 fill here ---
+The screenshots below show the Google Artifact Registry used in our project to store Docker container images before deployment. We created two repositories, with mlops-container-registry serving as the primary repository for our application images. As shown in Figure 6, the registry contains separate Docker images for the different components of our MLOps pipeline, including the training container `pathmnist-train`, backend `pathmnist-backend`, frontend `pathmnist-frontend`, inference API `pathmnist-api`, and drift detection service `pathmnist-drift`. These images were built using Google Cloud Build and stored in Artifact Registry before being deployed to Google Cloud Run. Storing container images in Artifact Registry provides centralized version management, making it easy to deploy, update, and maintain consistent container images.
+
+![Figure 6](figures/Artifact_Registry.png)
+
+![Figure 7](figures/Docker_images.png)
 
 ### Question 21
 
@@ -433,7 +491,9 @@ Workflows: https://github.com/pamudinj/MLOps_Project_LSP/tree/main/.github/workf
 >
 > Answer:
 
---- question 21 fill here ---
+The screenshot below shows the Google Cloud Build history for our project. Cloud Build was used to automatically build Docker images from our repository before deployment. The build history provides a record of all build attempts, including their status, creation time, duration, and build identifier. During development, several builds initially failed while we resolved dependency and configuration issues. After these were fixed, subsequent builds completed successfully and produced the Docker images that were stored in Artifact Registry and later deployed to Google Cloud Run. Maintaining the build history allowed us to verify that changes to the application could be built successfully and helped diagnose build failures by providing detailed logs and execution information.
+
+![Figure 8](figures/Cloud_Build.png)
 
 ### Question 22
 
@@ -448,7 +508,7 @@ Workflows: https://github.com/pamudinj/MLOps_Project_LSP/tree/main/.github/workf
 >
 > Answer:
 
---- question 22 fill here ---
+We successfully trained our model on Google Cloud using Vertex AI Custom Training Jobs. The training application was first packaged into a Docker container and stored in Artifact Registry using Cloud Build. A Python script was then used to launch Vertex AI training jobs by reading the hyperparameter search space from the `sweep.yaml` configuration file. For each selected hyperparameter combination, the script created an independent Vertex AI training job and passed the values as Hydra configuration overrides to the training container. During training, PyTorch Lightning handled model optimization, checkpointing, and early stopping, while Weights & Biases (W&B) logged the hyperparameters, training metrics, and model artifacts. A dedicated Cloud Storage bucket was used as the staging location for Vertex AI. Running the experiments in Vertex AI allowed multiple training jobs to execute independently in the cloud without relying on local computing resources, making the hyperparameter search scalable, reproducible, and easy to monitor through the Google Cloud Console and W&B.
 
 ## Deployment
 
@@ -465,7 +525,9 @@ Workflows: https://github.com/pamudinj/MLOps_Project_LSP/tree/main/.github/workf
 >
 > Answer:
 
---- question 23 fill here ---
+We implemented a API for our model using FastAPI, exposing prediction endpoints that accept an input image and return the predicted PathMNIST class together with the associated class probabilities. The API loads the trained model once during application startup and reuses it for inference, reducing prediction latency. In addition to the standard PyTorch inference API, we also implemented a second API that performs inference using an exported ONNX model, allowing us to compare native PyTorch and ONNX Runtime performance.
+
+To improve observability, we integrated structured logging to record inference requests and application events, and exposed Prometheus metrics for monitoring request counts and response latency. The API includes automatic request validation through FastAPI and provides interactive documentation via Swagger UI, simplifying testing and development. The application was containerized with Docker and deployed to Google Cloud Run, enabling a scalable, serverless deployment without managing virtual machines.
 
 ### Question 24
 
@@ -481,7 +543,12 @@ Workflows: https://github.com/pamudinj/MLOps_Project_LSP/tree/main/.github/workf
 >
 > Answer:
 
---- question 24 fill here ---
+We successfully deployed our inference API both locally and on Google Cloud Run. During development, the FastAPI application was first tested locally using Uvicorn to verify the prediction endpoints and API functionality. The application was then containerized with Docker and the image was built using Google Cloud Build before being stored in Artifact Registry. Finally, the container was deployed to Cloud Run, which provides a fully managed, serverless environment that automatically scales based on incoming requests. The deployed service exposes REST endpoints for model inference, health checks, and Prometheus metrics. Predictions can be obtained by sending an HTTP POST request with an input image to the /predict endpoint. For example, the deployed service can be invoked using:
+
+```bash
+curl -X POST -F "file=@sample.png" https://https://backend-556523647988.europe-west1.run.app/predict
+```
+The service returns the predicted PathMNIST class label, class index, and confidence score in JSON format, making it straightforward to integrate into downstream applications or other services.
 
 ### Question 25
 
@@ -497,7 +564,18 @@ Workflows: https://github.com/pamudinj/MLOps_Project_LSP/tree/main/.github/workf
 >
 > Answer:
 
---- question 25 fill here ---
+We performed both functional testing and load testing for our API. Functional testing was implemented using pytest and FastAPI's TestClient to verify that the API endpoints, including the prediction, health, metrics, and documentation endpoints, returned the expected responses. Additional tests ensured that inference requests were correctly processed and logged.
+
+For load testing, we used Locust to simulate 50 concurrent users interacting with the deployed Google Cloud Run service. The Locust test repeatedly sent requests to the root endpoint and the /predict endpoint, with prediction requests assigned a higher weight to reflect typical usage. During the test, the API successfully handled 1,637 requests with a 0% failure rate. The service achieved a throughput of approximately 34 requests per second, with a median response time of 40 ms and a 95th percentile response time of 69 ms. These results demonstrate that the deployed API remained stable under concurrent load while maintaining low response times for the majority of requests.
+
+```bash
+locust -f tests/performancetests/locustfile.py --host=https://backend-556523647988.europe-west1.run.app
+````
+Then open
+
+```bash
+http://localhost:8089
+```
 
 ### Question 26
 
@@ -512,7 +590,9 @@ Workflows: https://github.com/pamudinj/MLOps_Project_LSP/tree/main/.github/workf
 >
 > Answer:
 
---- question 26 fill here ---
+We implemented monitoring for our deployed model using Prometheus metrics and Google Cloud Logging. The API exposes a /metrics endpoint that provides Prometheus-compatible metrics, including the total number of prediction requests, inference latency, and the confidence score of the most recent prediction. These metrics can be used to monitor request volume, response time, and model behaviour over time.
+
+In addition, the application generates structured JSON logs for every prediction request, recording the predicted class and confidence score. When deployed on Google Cloud Run, these logs are automatically collected and can be viewed through Google Cloud Logging, making it possible to inspect inference activity, debug issues, and monitor the health of the service. During local development, we also recorded prediction details and basic image statistics in a CSV file for offline analysis. Additionally, automatic mail alerts for the case of low confidence in predictions due to data drifting have been activated. Together, these monitoring components help detect performance degradation, abnormal prediction confidence, and operational issues, improving the reliability and maintainability of the deployed application.
 
 ## Overall discussion of project
 
@@ -531,7 +611,9 @@ Workflows: https://github.com/pamudinj/MLOps_Project_LSP/tree/main/.github/workf
 >
 > Answer:
 
---- question 27 fill here ---
+During the project, we used $8.50 of Google Cloud credits. The most expensive service was Artifact Registry for storing Docker images ($3.18). Other notable costs included  Vertex AI, which accounted for $2.26 and Cloud Run ($1.19) for hosting the deployed inference API. Cloud Storage and Cloud Build contributed only a small fraction of the total cost.
+
+Overall, working in the cloud was a valuable experience. It allowed us to train models, build Docker images, and deploy a scalable inference service without managing our own infrastructure. Cloud services also simplified deployment, monitoring, and reproducibility by providing managed resources and integrations. Although cloud resources incur costs, they offer flexibility and scalability that are difficult to achieve with local hardware, making them well suited for machine learning workflows and production deployments.
 
 ### Question 28
 
@@ -547,7 +629,9 @@ Workflows: https://github.com/pamudinj/MLOps_Project_LSP/tree/main/.github/workf
 >
 > Answer:
 
---- question 28 fill here ---
+We implemented a simple web frontend for our application, allowing users to upload a PathMNIST image through a graphical interface and view the predicted pathology class and confidence score without interacting directly with the REST API. This makes the system easier to use and demonstrate.
+
+We also implemented a separate data drift detection service as an independent FastAPI application with its own Docker image. Keeping the drift detection functionality separate from the inference API makes the system more modular and allows model monitoring to be performed independently of prediction requests, making it easier to extend the application in the future.
 
 ### Question 29
 
@@ -564,7 +648,14 @@ Workflows: https://github.com/pamudinj/MLOps_Project_LSP/tree/main/.github/workf
 >
 > Answer:
 
---- question 29 fill here ---
+![Figure 9](figures/architecture.png)
+Figure 9 illustrates the end-to-end architecture of our MLOps pipeline. Development begins in the local environment, where the PathMNIST model is implemented, trained, and evaluated using PyTorch. The source code, configuration files, and Docker definitions are managed using Git and hosted in a GitHub repository.
+
+When code is pushed to GitHub, GitHub Actions automatically execute the project's CI/CD workflows. These workflows perform code quality checks, execute unit tests, build Docker images, and automate other project tasks. For cloud training, Docker images are pushed to Google Artifact Registry and used by Vertex AI to execute training jobs and hyperparameter sweeps. The resulting trained model is exported to the ONNX format for efficient inference.
+
+The inference application is packaged as a Docker container and deployed to Google Cloud Run, where it exposes a FastAPI REST API. Users can either interact directly with the REST API or access it through a simple web frontend that allows image upload and displays the predicted pathology class together with the prediction confidence. The deployed service also exposes a /metrics endpoint that provides Prometheus-compatible metrics, including request count, inference latency, and prediction confidence. Structured application logs are automatically collected by Google Cloud Logging, enabling monitoring and debugging of the deployed service.
+
+In parallel, a separate drift detection service is deployed as an independent FastAPI application. This service can be used to monitor incoming data and detect potential distribution shifts without affecting the prediction API. Overall, the architecture combines automated development workflows, cloud-based training, scalable deployment, monitoring, and drift detection into a complete end-to-end MLOps pipeline.
 
 ### Question 30
 
@@ -578,7 +669,11 @@ Workflows: https://github.com/pamudinj/MLOps_Project_LSP/tree/main/.github/workf
 >
 > Answer:
 
---- question 30 fill here ---
+The biggest challenge of the project was integrating the different MLOps components into a single, reproducible pipeline. While training the PathMNIST classification model was relatively straightforward, connecting cloud training, automated workflows, model deployment, monitoring, and testing required significant effort. We spent considerable time configuring Docker images, resolving dependency issues, and ensuring that the application behaved consistently in both local and cloud environments.
+
+Deploying the model to Google Cloud Run and integrating it with Vertex AI also required careful configuration of Docker containers, Artifact Registry, permissions, and cloud resources. We encountered several deployment and compatibility issues, particularly when exporting the PyTorch model to ONNX and ensuring that inference using ONNX Runtime produced the same predictions as the original model. Setting up monitoring, performance testing, and the drift detection service also required additional work to understand how these components interact within a production environment.
+
+We addressed these challenges by developing and testing each component incrementally before integrating it into the complete pipeline. Automated testing, GitHub Actions, and Docker helped us quickly identify configuration issues and maintain reproducible environments. Overall, the project provided valuable experience in building an end-to-end machine learning system and highlighted that integrating and deploying models in production often requires more effort than developing the model itself.
 
 ### Question 31
 
