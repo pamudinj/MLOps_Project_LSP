@@ -21,7 +21,11 @@ logger = logging.getLogger(__name__)
 
 
 class PathMNISTClassifier(pl.LightningModule):
-    """PyTorch Lightning module for PathMNIST classification."""
+    """PyTorch Lightning module for training and evaluating the PathMNIST CNN.
+
+    The module encapsulates the model architecture, loss function,
+    training loop, validation loop, and optimizer configuration.
+    """
 
     def __init__(self, lr: float = 1e-3, weight_decay: float = 1e-4):
         super().__init__()

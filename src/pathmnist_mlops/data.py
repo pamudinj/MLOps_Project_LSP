@@ -31,6 +31,8 @@ class MyDataset(Dataset):
 
 
 def get_dataloaders(batch_size: int = 32, data_modification: str = "raw"):
+    """Create PathMNIST dataloaders."""
+
     transform = transforms.ToTensor()
 
     train = MyDataset(split="train", transform=transform, data_modification="raw")
