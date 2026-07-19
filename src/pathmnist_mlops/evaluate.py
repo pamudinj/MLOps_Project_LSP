@@ -3,13 +3,13 @@ from pathlib import Path
 
 import torch
 import typer
+import wandb
 from dotenv import load_dotenv
 from sklearn.metrics import (
     accuracy_score,
     confusion_matrix,
 )
 
-import wandb
 from pathmnist_mlops.data import (
     get_dataloaders,
 )
