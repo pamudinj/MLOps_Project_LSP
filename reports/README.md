@@ -109,11 +109,11 @@ will check the repositories and the code to verify your answers.
 
 ### Extra
 
-* [ ] Write some documentation for your application (M32)
-* [ ] Publish the documentation to GitHub Pages (M32)
-* [ ] Revisit your initial project description. Did the project turn out as you wanted?
+* [X] Write some documentation for your application (M32)
+* [X] Publish the documentation to GitHub Pages (M32)
+* [X] Revisit your initial project description. Did the project turn out as you wanted?
 * [X] Create an architectural diagram over your MLOps pipeline
-* [ ] Make sure all group members have an understanding about all parts of the project
+* [X] Make sure all group members have an understanding about all parts of the project
 * [X] Uploaded all your code to GitHub
 
 ## Group information
@@ -691,4 +691,5 @@ We addressed these challenges by developing and testing each component increment
 > *We have used ChatGPT to help debug our code. Additionally, we used GitHub Copilot to help write some of our code.*
 > Answer:
 
---- question 31 fill here ---
+The project work was divided according to the main components of the MLOps pipeline. Student Simon Schreiner was primarily responsible for implementing the model training pipeline using PyTorch Lightning. This student also developed the Data Drift detection API. Experiment tracking with Weights & Biases and hyperparameter tuning on Vertex AI was done by Lanre Oriowo. Student Pamudi Jayathilaka developed the deployment pipeline, including ONNX model export, the FastAPI inference service. All three students were partly involved in data versioning with DVC, Docker containerization and deployment to Google Cloud Run, implementing data drift monitoring with Evidently, setting up continuous integration using GitHub Actions, and creating the project documentation.
+ All group members contributed to the overall codebase through code reviews, testing, debugging, and discussions on project design. Development was coordinated using GitHub with feature branches and pull requests to ensure code quality before merging into the main branch. We also used AI-assisted tools, including ChatGPT and Claude for debugging, understanding library usage, and improving documentation, and GitHub Copilot for code completion and boilerplate generation. These tools supported development but all generated code was reviewed, tested, and adapted to meet the project requirements.
