@@ -6,10 +6,8 @@ from pathmnist_mlops.evaluate import load_model_from_wandb
 
 
 def export_onnx() -> None:
-    """
-    Export the trained PathMNIST model
-    to ONNX format.
-    """
+    """Export the best trained PathMNIST model from the W&B Model Registry
+    to ONNX format for deployment with the FastAPI inference service."""
 
     model = load_model_from_wandb(device=torch.device("cpu"))
 

@@ -51,3 +51,7 @@ ignore_missing_imports = true
 [[tool.mypy.overrides]]
 module = ["prometheus_client.*"]
 ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = ["mkdocs-material.*"]
+ignore_missing_imports = true

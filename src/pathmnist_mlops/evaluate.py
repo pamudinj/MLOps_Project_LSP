@@ -79,10 +79,8 @@ def load_model_from_wandb(
 
 
 def evaluate(data_modification: str = "raw") -> None:
-    """
-    Evaluate model loaded
-    from WandB registry.
-    """
+    """Evaluate the best model retrieved from the Weights & Biases Model Registry
+    on the PathMNIST test dataset and report classification metrics."""
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
