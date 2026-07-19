@@ -5,6 +5,7 @@ from pathlib import Path
 import hydra
 import pytorch_lightning as pl
 import torch
+import wandb
 from omegaconf import DictConfig, OmegaConf
 from pytorch_lightning.callbacks import EarlyStopping, ModelCheckpoint
 from pytorch_lightning.loggers import WandbLogger
@@ -12,7 +13,6 @@ from pytorch_lightning.profilers import PyTorchProfiler
 from torch import nn
 from torch.optim import Adam
 
-import wandb
 from pathmnist_mlops.data import get_dataloaders
 from pathmnist_mlops.model import Model
 
