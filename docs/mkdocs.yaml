@@ -1,4 +1,4 @@
-site_name: pathmnist_mlops
+site_name: PathMNIST MLOps
 site_author: LSP Team
 docs_dir: source
 
@@ -21,3 +21,7 @@ plugins:
 
 nav:
   - Home: index.md
+  - Getting Started: getting_started.md
+  - Training Pipeline: training.md
+  - Deployment: deployment.md
+  - API Reference: api.md
