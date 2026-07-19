@@ -177,7 +177,6 @@ cd <project_directory>
 python -m venv .venv
 source .venv/bin/activate      # Linux/macOS
 .venv\Scripts\activate       # Windows
-pip install -e .
 
 pip install -r requirements.txt
 pip install -r requirements_frontend.txt
@@ -202,7 +201,7 @@ dvc pull # download data
 >
 > Answer:
 
-We initialized the project using the DTU MLOps cookiecutter template and preserved its overall directory structure. The main development took place in the src/pathmnist_mlops package, where we implemented modules for data loading `data.py`, model training `train.py`, evaluation `evaluate.py`, FastAPI inference `api.py`, ONNX inference `api_onnx.py`, ONNX model export `export_onnx.py`, data drift detection `data_drift.py and drift_api.py`, dataset statistics, and inference optimization. The tests directory was expanded with unit, API, and performance tests, while the dockerfiles directory was extended with Dockerfiles for the backend, frontend, and drift detection service. We also added a monitoring directory containing monitoring and alert configuration files for Google Cloud Monitoring. In addition, we customized the project by integrating DVC for data versioning, GitHub Actions for continuous integration, Weights & Biases for experiment tracking, and Google Cloud Run for deployment, while keeping the original cookiecutter organization intact. At this stage of the project, we did not make modifications to some of the template folders, including notebooks, and .devcontainer. We added models to the models folder locally, but did not push those to the repo.
+We initialized the project using the DTU MLOps cookiecutter template and preserved its overall directory structure. The main development took place in the src/pathmnist_mlops package, where we implemented modules for data loading `data.py`, model training `train.py`, evaluation `evaluate.py`, FastAPI inference `api.py`, ONNX inference `api_onnx.py`, ONNX model export `export_onnx.py`, data drift detection `data_drift.py` and `drift_api.py`, dataset statistics, and inference optimization. The tests directory was expanded with unit, API, and performance tests, while the dockerfiles directory was extended with Dockerfiles for the backend, frontend, and drift detection service. We also added a monitoring directory containing monitoring and alert configuration files for Google Cloud Monitoring. In addition, we customized the project by integrating DVC for data versioning, GitHub Actions for continuous integration, Weights & Biases for experiment tracking, and Google Cloud Run for deployment, while keeping the original cookiecutter organization intact. At this stage of the project, we did not make modifications to some of the template folders, including notebooks, and .devcontainer. We added models to the models folder locally, but did not push those to the repo.
 
 ### Question 6
 
@@ -236,7 +235,7 @@ Yes. We implemented several code quality practices throughout the project. Ruff 
 >
 > Answer:
 
-We implemented 21 automated tests and one performance test. The automated tests cover the data pipeline, model, training module, and both inference APIs. They verify dataset loading, dataloader outputs, model initialization, forward passes, optimizer configuration, training and validation steps, API endpoints, prediction functionality, lazy model retrieval, inference logging, and Prometheus metrics. We also implemented a Locust performance test to evaluate the inference API under concurrent user requests.
+We implemented 21 automated tests and one performance test. The automated tests cover the data pipeline, model, training module, and both inference APIs. They verify dataset loading, dataloader outputs, model initialization, forward passes, optimizer configuration, training and validation steps, API endpoints, prediction functionality, inference logging, and Prometheus metrics. We also implemented a Locust performance test to evaluate the inference API under concurrent user requests.
 
 ### Question 8
 
@@ -362,10 +361,13 @@ The main metrics we monitored were training loss, validation loss, training accu
 As shown in Figure 3, the run treasured-donkey-19  the highest validation accuracy and was therefore selected as the best-performing configuration. W&B also stored the corresponding hyperparameters and model artifact, allowing the experiment to be reproduced and compared with future experiments.
 
 ![Figure 1](figures/wandb_training.png)
+Figure 1: W&B Training
 
 ![Figure 2](figures/wandb_models.png)
+Figure 2: W&B Runs
 
 ![Figure 3](figures/wandb_best.png)
+Figure 3: Best Model
 
 ### Question 15
 
@@ -414,7 +416,6 @@ For evaluating performance of python files, for example the data.py, one can run
 ```bash
 python -m cProfile -o profiler_logs/data_profile.prof src/pathmnist_mlops/data.py
 ```
-.
 
 ## Working in the cloud
 
@@ -466,10 +467,14 @@ We created a Google Compute Engine virtual machine as part of exploring the GCP 
 > Answer:
 
 Figure 4 shows the Google Cloud Storage buckets used in our project. The mlops_data_bucket-1 bucket was configured as the remote storage for DVC, allowing dataset files to be versioned without storing them directly in the Git repository. The mlops-project-497719_cloudbuild bucket was automatically created and used by Google Cloud Build to store temporary build artifacts during container builds. The mlops-vertex-europe bucket was created as the staging bucket for Vertex AI custom training jobs, where Vertex AI stores intermediate outputs and training artifacts.
+
 ![Figure 4](figures/Cloud_Storage.png)
+Figure 4: GCP buckets
 
 Figure 5 shows the contents of the DVC storage bucket, illustrating the dataset objects tracked remotely by DVC. Storing the data in Cloud Storage allowed all team members to access the same dataset version and improved the reproducibility of our experiments while keeping the Git repository lightweight.
+
 ![Figure 5](figures/DVC_storage_bucket.png)
+Figure 5: Data bucket
 
 ### Question 20
 
@@ -478,11 +483,13 @@ Figure 5 shows the contents of the DVC storage bucket, illustrating the dataset 
 >
 > Answer:
 
-The screenshots below show the Google Artifact Registry used in our project to store Docker container images before deployment. We created two repositories, with mlops-container-registry serving as the primary repository for our application images. As shown in Figure 6, the registry contains separate Docker images for the different components of our MLOps pipeline, including the training container `pathmnist-train`, backend `pathmnist-backend`, frontend `pathmnist-frontend`, inference API `pathmnist-api`, and drift detection service `pathmnist-drift`. These images were built using Google Cloud Build and stored in Artifact Registry before being deployed to Google Cloud Run. Storing container images in Artifact Registry provides centralized version management, making it easy to deploy, update, and maintain consistent container images.
+The screenshots below show the Google Artifact Registry used in our project to store Docker container images before deployment. We created two repositories, with mlops-container-registry serving as the primary repository for our application images. As shown in Figure 7, the registry contains separate Docker images for the different components of our MLOps pipeline, including the training container `pathmnist-train`, backend `pathmnist-backend`, frontend `pathmnist-frontend`, inference API `pathmnist-api`, and drift detection service `pathmnist-drift`. These images were built using Google Cloud Build and stored in Artifact Registry before being deployed to Google Cloud Run. Storing container images in Artifact Registry provides centralized version management, making it easy to deploy, update, and maintain consistent container images.
 
 ![Figure 6](figures/Artifact_Registry.png)
+Figure 6: Artifact Registry
 
 ![Figure 7](figures/Docker_images.png)
+Figure 7: Docker images
 
 ### Question 21
 
@@ -494,6 +501,7 @@ The screenshots below show the Google Artifact Registry used in our project to s
 The screenshot below shows the Google Cloud Build history for our project. Cloud Build was used to automatically build Docker images from our repository before deployment. The build history provides a record of all build attempts, including their status, creation time, duration, and build identifier. During development, several builds initially failed while we resolved dependency and configuration issues. After these were fixed, subsequent builds completed successfully and produced the Docker images that were stored in Artifact Registry and later deployed to Google Cloud Run. Maintaining the build history allowed us to verify that changes to the application could be built successfully and helped diagnose build failures by providing detailed logs and execution information.
 
 ![Figure 8](figures/Cloud_Build.png)
+Figure 8: Cloud Build history
 
 ### Question 22
 
@@ -649,6 +657,9 @@ We also implemented a separate data drift detection service as an independent Fa
 > Answer:
 
 ![Figure 9](figures/architecture.png)
+
+Figure 9: Architecture
+
 Figure 9 illustrates the end-to-end architecture of our MLOps pipeline. Development begins in the local environment, where the PathMNIST model is implemented, trained, and evaluated using PyTorch. The source code, configuration files, and Docker definitions are managed using Git and hosted in a GitHub repository.
 
 When code is pushed to GitHub, GitHub Actions automatically execute the project's CI/CD workflows. These workflows perform code quality checks, execute unit tests, build Docker images, and automate other project tasks. For cloud training, Docker images are pushed to Google Artifact Registry and used by Vertex AI to execute training jobs and hyperparameter sweeps. The resulting trained model is exported to the ONNX format for efficient inference.
