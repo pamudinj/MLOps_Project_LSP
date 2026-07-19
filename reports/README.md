@@ -112,9 +112,9 @@ will check the repositories and the code to verify your answers.
 * [ ] Write some documentation for your application (M32)
 * [ ] Publish the documentation to GitHub Pages (M32)
 * [ ] Revisit your initial project description. Did the project turn out as you wanted?
-* [ ] Create an architectural diagram over your MLOps pipeline
+* [X] Create an architectural diagram over your MLOps pipeline
 * [ ] Make sure all group members have an understanding about all parts of the project
-* [ ] Uploaded all your code to GitHub
+* [X] Uploaded all your code to GitHub
 
 ## Group information
 
@@ -185,7 +185,7 @@ pip install -r requirements_backend.txt
 pip install -r requirements_dev.txt
 pip install -e .
 
-dvc pull
+dvc pull # download data
 ```
 
 ### Question 5
@@ -361,11 +361,11 @@ The main metrics we monitored were training loss, validation loss, training accu
 
 As shown in Figure 3, the run treasured-donkey-19  the highest validation accuracy and was therefore selected as the best-performing configuration. W&B also stored the corresponding hyperparameters and model artifact, allowing the experiment to be reproduced and compared with future experiments.
 
-![Figure 1](reports/figures/wandb_training.png)
+![Figure 1](figures/wandb_training.png)
 
-![Figure 2](reports/figures/wandb_models.png)
+![Figure 2](figures/wandb_models.png)
 
-![Figure 3](reports/figures/wandb_best.png)
+![Figure 3](figures/wandb_best.png)
 
 ### Question 15
 
@@ -466,10 +466,10 @@ We created a Google Compute Engine virtual machine as part of exploring the GCP 
 > Answer:
 
 Figure 4 shows the Google Cloud Storage buckets used in our project. The mlops_data_bucket-1 bucket was configured as the remote storage for DVC, allowing dataset files to be versioned without storing them directly in the Git repository. The mlops-project-497719_cloudbuild bucket was automatically created and used by Google Cloud Build to store temporary build artifacts during container builds. The mlops-vertex-europe bucket was created as the staging bucket for Vertex AI custom training jobs, where Vertex AI stores intermediate outputs and training artifacts.
-![Figure 4](reports/figures/Cloud_Storage.png)
+![Figure 4](figures/Cloud_Storage.png)
 
 Figure 5 shows the contents of the DVC storage bucket, illustrating the dataset objects tracked remotely by DVC. Storing the data in Cloud Storage allowed all team members to access the same dataset version and improved the reproducibility of our experiments while keeping the Git repository lightweight.
-![Figure 5](reports/figures/DVC_storage_bucket.png)
+![Figure 5](figures/DVC_storage_bucket.png)
 
 ### Question 20
 
@@ -480,9 +480,9 @@ Figure 5 shows the contents of the DVC storage bucket, illustrating the dataset 
 
 The screenshots below show the Google Artifact Registry used in our project to store Docker container images before deployment. We created two repositories, with mlops-container-registry serving as the primary repository for our application images. As shown in Figure 6, the registry contains separate Docker images for the different components of our MLOps pipeline, including the training container `pathmnist-train`, backend `pathmnist-backend`, frontend `pathmnist-frontend`, inference API `pathmnist-api`, and drift detection service `pathmnist-drift`. These images were built using Google Cloud Build and stored in Artifact Registry before being deployed to Google Cloud Run. Storing container images in Artifact Registry provides centralized version management, making it easy to deploy, update, and maintain consistent container images.
 
-![Figure 6](reports/figures/Artifact_Registry.png)
+![Figure 6](figures/Artifact_Registry.png)
 
-![Figure 7](reports/figures/Docker_images.png)
+![Figure 7](figures/Docker_images.png)
 
 ### Question 21
 
@@ -493,7 +493,7 @@ The screenshots below show the Google Artifact Registry used in our project to s
 
 The screenshot below shows the Google Cloud Build history for our project. Cloud Build was used to automatically build Docker images from our repository before deployment. The build history provides a record of all build attempts, including their status, creation time, duration, and build identifier. During development, several builds initially failed while we resolved dependency and configuration issues. After these were fixed, subsequent builds completed successfully and produced the Docker images that were stored in Artifact Registry and later deployed to Google Cloud Run. Maintaining the build history allowed us to verify that changes to the application could be built successfully and helped diagnose build failures by providing detailed logs and execution information.
 
-![Figure 8](reports/figures/Cloud_Build.png)
+![Figure 8](figures/Cloud_Build.png)
 
 ### Question 22
 
@@ -648,7 +648,7 @@ We also implemented a separate data drift detection service as an independent Fa
 >
 > Answer:
 
-![Figure 9](reports/figures/architecture.png)
+![Figure 9](figures/architecture.png)
 Figure 9 illustrates the end-to-end architecture of our MLOps pipeline. Development begins in the local environment, where the PathMNIST model is implemented, trained, and evaluated using PyTorch. The source code, configuration files, and Docker definitions are managed using Git and hosted in a GitHub repository.
 
 When code is pushed to GitHub, GitHub Actions automatically execute the project's CI/CD workflows. These workflows perform code quality checks, execute unit tests, build Docker images, and automate other project tasks. For cloud training, Docker images are pushed to Google Artifact Registry and used by Vertex AI to execute training jobs and hyperparameter sweeps. The resulting trained model is exported to the ONNX format for efficient inference.
