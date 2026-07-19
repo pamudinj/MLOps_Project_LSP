@@ -26,3 +26,5 @@ evidently==0.7.21
 prometheus-client==0.21.1
 google-cloud-storage==3.12.1
 torch_tb_profiler==0.4.3
+mkdocs-material==4.8.0
+mkdocstrings==1.0.4
