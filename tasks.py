@@ -83,3 +83,17 @@ def build_docs(ctx: Context) -> None:
 def serve_docs(ctx: Context) -> None:
     """Serve documentation."""
     ctx.run("mkdocs serve --config-file docs/mkdocs.yaml", echo=True, pty=not WINDOWS)
+
+@task
+def create_env(ctx: Context) -> None:
+    """Create conda environment and install all dependencies."""
+    ctx.run(
+        f"conda create --name {PROJECT_NAME} python={PYTHON_VERSION} pip --no-default-packages --yes",
+        echo=True, pty=not WINDOWS,
+    )
+    ctx.run(f"conda run -n {PROJECT_NAME} pip install -U pip setuptools wheel", echo=True, pty=not WINDOWS)
+    ctx.run(f"conda run -n {PROJECT_NAME} pip install -r requirements.txt", echo=True, pty=not WINDOWS)
+    ctx.run(f"conda run -n {PROJECT_NAME} pip install -r requirements_dev.txt", echo=True, pty=not WINDOWS)
+    ctx.run(f"conda run -n {PROJECT_NAME} pip install -r requirements_backend.txt", echo=True, pty=not WINDOWS)
+    ctx.run(f"conda run -n {PROJECT_NAME} pip install -r requirements_frontend.txt", echo=True, pty=not WINDOWS)
+    ctx.run(f"conda run -n {PROJECT_NAME} pip install -e .", echo=True, pty=not WINDOWS)

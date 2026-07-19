@@ -174,11 +174,7 @@ We managed dependencies using pip within a dedicated Python virtual environment.
 git clone <GitHub_repository_URL>
 cd <project_directory>
 
-python -m venv .venv
-source .venv/bin/activate      # Linux/macOS
-.venv\Scripts\activate       # Windows
-
-pip install -r requirements.txt
+invoke create-env
 ```
 
 ### Question 5
