@@ -28,4 +28,4 @@ google-cloud-storage==3.12.1
 torch_tb_profiler==0.4.3
 mkdocs==1.6.1
 mkdocs-material==9.7.1
-mkdocstrings==1.0.4
+mkdocstrings[python]==1.0.4
